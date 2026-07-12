@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restrição de itens por tabela de preço — Guia do Suporte</title>
+<style>
+  :root {
+    --bg: #FAF8F7;
+    --surface: #FFFFFF;
+    --panel: #F6F2F1;
+    --border: #E8E2DF;
+    --border-strong: #D8D0CB;
+    --ink: #201A18;
+    --muted: #6D645F;
+    --accent: #C21A24;
+    --accent-soft: #FCE9E9;
+    --ok: #157F4E;
+    --ok-bg: #E7F3EC;
+    --ok-border: #BBDFCB;
+    --fora: #B23A2E;
+    --fora-bg: #FBEBE8;
+    --fora-border: #F0CCC4;
+    --info: #1F6FEB;
+    --info-bg: #E9F0FE;
+    --info-border: #C7DAFB;
+    --shadow: 0 1px 2px rgba(30,20,18,.04), 0 8px 24px rgba(30,20,18,.05);
+    --radius: 10px;
+    --maxw: 900px;
+    --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --mono: "Cascadia Code", "Consolas", ui-monospace, "SFMono-Regular", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16120F;
+      --surface: #1F1A17;
+      --panel: #251F1B;
+      --border: #332C27;
+      --border-strong: #41372F;
+      --ink: #F2EBE6;
+      --muted: #A79E97;
+      --accent: #FF6069;
+      --accent-soft: #38191C;
+      --ok: #4FB985;
+      --ok-bg: #16291F;
+      --ok-border: #2D5B43;
+      --fora: #F08A7C;
+      --fora-bg: #33201C;
+      --fora-border: #5A392F;
+      --info: #6CA0FF;
+      --info-bg: #182740;
+      --info-border: #2C436E;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #FAF8F7; --surface: #FFFFFF; --panel: #F6F2F1; --border: #E8E2DF;
+    --border-strong: #D8D0CB; --ink: #201A18; --muted: #6D645F; --accent: #C21A24;
+    --accent-soft: #FCE9E9; --ok: #157F4E; --ok-bg: #E7F3EC; --ok-border: #BBDFCB;
+    --fora: #B23A2E; --fora-bg: #FBEBE8; --fora-border: #F0CCC4; --info: #1F6FEB;
+    --info-bg: #E9F0FE; --info-border: #C7DAFB;
+    --shadow: 0 1px 2px rgba(30,20,18,.04), 0 8px 24px rgba(30,20,18,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #16120F; --surface: #1F1A17; --panel: #251F1B; --border: #332C27;
+    --border-strong: #41372F; --ink: #F2EBE6; --muted: #A79E97; --accent: #FF6069;
+    --accent-soft: #38191C; --ok: #4FB985; --ok-bg: #16291F; --ok-border: #2D5B43;
+    --fora: #F08A7C; --fora-bg: #33201C; --fora-border: #5A392F; --info: #6CA0FF;
+    --info-bg: #182740; --info-border: #2C436E;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ---- header ---- */
+  header.masthead { padding: 56px 0 28px; border-bottom: 1px solid var(--border); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 16px;
+  }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  h1 {
+    font-size: clamp(28px, 4vw, 40px); line-height: 1.12; margin: 0 0 14px;
+    font-weight: 700; letter-spacing: -.02em; text-wrap: balance; max-width: 20ch;
+  }
+  .lede { font-size: 18px; color: var(--muted); margin: 0; max-width: 60ch; }
+  .meta {
+    margin-top: 22px; font-size: 13px; color: var(--muted);
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+
+  /* ---- sections ---- */
+  section { padding-top: 44px; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 18px; }
+  .sec-num {
+    font-family: var(--mono); font-size: 13px; color: var(--accent);
+    font-weight: 600; letter-spacing: 0; flex: none; padding-top: 2px;
+  }
+  h2 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+  h2 + .sub { color: var(--muted); margin: 6px 0 0 34px; font-size: 15px; }
+  p { margin: 0 0 14px; }
+  .body-col { margin-left: 34px; }
+  @media (max-width: 620px) { .body-col, h2 + .sub { margin-left: 0; } }
+
+  /* ---- mode cards ---- */
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 720px) { .modes { grid-template-columns: 1fr; } }
+  .mode {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 18px 20px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .mode .tag {
+    align-self: flex-start; font-size: 11.5px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; padding: 4px 9px; border-radius: 999px;
+  }
+  .mode.none .tag { background: var(--panel); color: var(--muted); border: 1px solid var(--border-strong); }
+  .mode.inc .tag  { background: var(--ok-bg); color: var(--ok); border: 1px solid var(--ok-border); }
+  .mode.exc .tag  { background: var(--info-bg); color: var(--info); border: 1px solid var(--info-border); }
+  .mode h3 { margin: 0; font-size: 16px; font-weight: 700; }
+  .mode p { margin: 0; font-size: 14.5px; color: var(--muted); }
+  .mode .when { margin-top: auto; font-size: 13px; color: var(--ink); padding-top: 4px; }
+  .mode .when b { color: var(--accent); font-weight: 600; }
+
+  /* ---- pills ---- */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+    padding: 2px 10px; border-radius: 999px; white-space: nowrap; line-height: 1.7;
+  }
+  .pill.ok { background: var(--ok-bg); color: var(--ok); border: 1px solid var(--ok-border); }
+  .pill.fora { background: var(--fora-bg); color: var(--fora); border: 1px solid var(--fora-border); }
+  .pill .ic { font-weight: 800; }
+
+  /* ---- callout ---- */
+  .callout {
+    background: var(--accent-soft); border: 1px solid var(--fora-border);
+    border-radius: var(--radius); padding: 20px 22px; margin-left: 34px;
+  }
+  @media (max-width: 620px) { .callout { margin-left: 0; } }
+  .callout .k {
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .callout ul { margin: 0; padding-left: 20px; }
+  .callout li { margin: 0 0 8px; }
+  .callout li:last-child { margin-bottom: 0; }
+
+  /* ---- steps / recipe ---- */
+  .recipe {
+    margin: 12px 0 0; padding: 14px 16px; background: var(--panel);
+    border: 1px solid var(--border); border-radius: var(--radius); border-left: 3px solid var(--ok);
+  }
+  .recipe .lbl { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ok); margin: 0 0 8px; }
+  .recipe ol { margin: 0; padding-left: 20px; }
+  .recipe li { margin: 0 0 5px; font-size: 14.5px; }
+
+  /* ---- counters demo ---- */
+  .counters { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0 14px; }
+  .chip {
+    display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 14px;
+    border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface);
+    font-variant-numeric: tabular-nums;
+  }
+  .chip .n { font-weight: 700; font-size: 16px; }
+  .chip .l { font-size: 13px; color: var(--muted); }
+  .chip.ok { background: var(--ok-bg); border-color: var(--ok-border); }
+  .chip.ok .n { color: var(--ok); }
+  .chip.fora { background: var(--fora-bg); border-color: var(--fora-border); }
+  .chip.fora .n { color: var(--fora); }
+
+  /* ---- key-value list ---- */
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 18px; margin: 0; }
+  .kv dt { font-weight: 600; padding: 8px 0; border-top: 1px solid var(--border); }
+  .kv dd { margin: 0; padding: 8px 0; border-top: 1px solid var(--border); color: var(--muted); }
+  .kv dt:first-of-type, .kv dd:first-of-type { border-top: none; }
+  @media (max-width: 560px) {
+    .kv { grid-template-columns: 1fr; }
+    .kv dd { padding-top: 0; border-top: none; }
+    .kv dt { border-top: 1px solid var(--border); }
+  }
+
+  /* ---- FAQ ---- */
+  .faq { display: flex; flex-direction: column; gap: 12px; }
+  .qa {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px; box-shadow: var(--shadow);
+  }
+  .qa .q { font-weight: 700; margin: 0 0 8px; display: flex; gap: 10px; align-items: flex-start; }
+  .qa .q .mark { color: var(--accent); font-family: var(--mono); font-weight: 700; flex: none; }
+  .qa .a { margin: 0; color: var(--muted); }
+  .qa .a b { color: var(--ink); font-weight: 600; }
+
+  code, .code {
+    font-family: var(--mono); font-size: .88em; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; color: var(--ink);
+    white-space: nowrap;
+  }
+  .ui { font-weight: 600; color: var(--ink); }
+  strong { font-weight: 600; }
+  hr.soft { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  footer.foot { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow"><span class="dot"></span>HAP ERP · Guia do Suporte</p>
+    <h1>Restrição de itens por tabela de preço</h1>
+    <p class="lede">Como controlar quais produtos podem ser vendidos por cada tabela de preço — e como orientar o cliente quando "não bate" o que aparece na tela.</p>
+    <div class="meta">
+      <span>Onde fica: <b>Cadastros → Tabela de preços → aba Produtos</b></span>
+      <span>Público: <b>time de Suporte</b></span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>O que é</h2></div>
+    <div class="body-col">
+      <p>Toda tabela de preço pode <strong>limitar quais produtos vendem por ela</strong>. O controle é feito na aba <span class="ui">Produtos</span>, no seletor do topo (o mesmo lugar onde aparece <span class="ui">"Sem restrição de itens"</span>). Sem configurar nada, a tabela vende todos os produtos — o comportamento de sempre.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>Os três modos</h2></div>
+    <p class="sub">Escolhidos no seletor do topo da aba Produtos. Depois de trocar, é preciso <b>Salvar o cabeçalho</b>.</p>
+    <div class="body-col" style="margin-top:18px;">
+      <div class="modes">
+        <div class="mode none">
+          <span class="tag">Padrão</span>
+          <h3>Sem restrição de itens</h3>
+          <p>Todos os produtos vendem por esta tabela. É o comportamento normal.</p>
+          <p class="when">Use quando: <b>a tabela não precisa de filtro.</b></p>
+        </div>
+        <div class="mode inc">
+          <span class="tag">Inclusão</span>
+          <h3>Só os disponíveis vendem</h3>
+          <p>Vende <strong>apenas</strong> os produtos marcados como <span class="pill ok"><span class="ic">✓</span>Disponível</span>. Todo o resto fica bloqueado.</p>
+          <p class="when">Use quando: <b>poucos produtos devem vender</b> por esta tabela.</p>
+        </div>
+        <div class="mode exc">
+          <span class="tag">Exclusão</span>
+          <h3>Todos vendem, exceto os "Fora"</h3>
+          <p>Vende tudo, <strong>menos</strong> os produtos marcados como <span class="pill fora"><span class="ic">✕</span>Fora</span>.</p>
+          <p class="when">Use quando: <b>quase tudo vende</b> e você só quer tirar alguns.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>O selo "Na tabela" de cada produto</h2></div>
+    <div class="body-col">
+      <p>Quando a tabela está em <span class="ui">Inclusão</span> ou <span class="ui">Exclusão</span>, cada linha ganha um selo na coluna <span class="ui">Na tabela</span>. Clicar nele alterna o produto entre os dois estados:</p>
+      <p style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <span class="pill ok"><span class="ic">✓</span>Disponível</span> vende por esta tabela
+        &nbsp;·&nbsp;
+        <span class="pill fora"><span class="ic">✕</span>Fora</span> não vende por esta tabela
+      </p>
+      <p>As linhas que estão "Fora" aparecem esmaecidas. Toda mudança de selo só vale depois de <strong>Salvar o cabeçalho</strong>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>O ponto que mais gera dúvida</h2></div>
+    <div class="callout">
+      <p class="k">Leia com atenção — é o que mais aparece no suporte</p>
+      <ul>
+        <li>Quando um produto <strong>entra na tabela</strong>, ele já nasce <span class="pill ok"><span class="ic">✓</span>Disponível</span>. Ou seja, ao começar, <strong>todos os itens estão como Disponível</strong>.</li>
+        <li>Os botões <span class="ui">"Marcar disponível"</span> e <span class="ui">"Marcar fora"</span> são <strong>aditivos</strong>: mexem <strong>somente nos produtos selecionados</strong>. Eles <strong>não</strong> invertem o restante.</li>
+        <li>Por isso, no modo <span class="ui">Inclusão</span>, marcar um grupo como Disponível <strong>não joga o resto para Fora sozinho</strong> — os outros continuam Disponível (e a tabela mostra "0 fora").</li>
+      </ul>
+    </div>
+    <div class="body-col">
+      <div class="recipe">
+        <p class="lbl">Para deixar SÓ um conjunto vendendo (modo Inclusão)</p>
+        <ol>
+          <li>Filtre os produtos que <strong>devem</strong> vender → <span class="ui">Marcar disponível</span>.</li>
+          <li>Inverta o filtro para os que <strong>não</strong> devem vender → <span class="ui">Marcar fora</span>.</li>
+          <li><strong>Salvar</strong> o cabeçalho.</li>
+        </ol>
+      </div>
+      <p style="margin-top:14px;"><strong>Exemplo real:</strong> a tabela tem 1.784 produtos. O cliente filtra <span class="code">Valor de Venda maior que 0</span> (1.546 itens) e marca disponível. Os <strong>238 de valor 0</strong> (que ficaram fora do filtro) <strong>continuam Disponível</strong> — não viram "Fora" sozinhos. Para tirá-los: filtrar <span class="code">Valor de Venda igual a 0</span> → <span class="ui">Marcar fora</span>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Os contadores no topo da lista</h2></div>
+    <p class="sub">Refletem o <b>filtro inteiro</b>, não só a página que está na tela.</p>
+    <div class="body-col" style="margin-top:16px;">
+      <div class="counters">
+        <span class="chip"><span class="n">1.784</span><span class="l">produtos</span></span>
+        <span class="chip ok"><span class="n">1.546</span><span class="l">disponíveis</span></span>
+        <span class="chip fora"><span class="n">238</span><span class="l">fora da tabela</span></span>
+      </div>
+      <dl class="kv">
+        <dt>produtos</dt><dd>Total de produtos que o filtro atual encontrou.</dd>
+        <dt>disponíveis</dt><dd>Quantos vão <strong>vender</strong> por esta tabela, já considerando o modo.</dd>
+        <dt>fora da tabela</dt><dd>Quantos <strong>não</strong> vão vender (total − disponíveis).</dd>
+      </dl>
+      <p style="margin-top:14px;">No modo <span class="ui">Sem restrição</span>, <span class="pill ok">disponíveis</span> = total e <span class="pill fora">fora</span> = 0, porque tudo vende.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Selecionar tudo e ações em lote</h2></div>
+    <div class="body-col">
+      <p>O <strong>checkbox do cabeçalho</strong> da lista seleciona <strong>todos os produtos do filtro</strong> — não apenas os que estão renderizados na página (200/300/600…). A barra azul confirma: <em>"Todos os N produtos do filtro selecionados"</em>. Com isso, a ação vale para o conjunto inteiro.</p>
+      <dl class="kv">
+        <dt>Marcar como disponível</dt><dd>Coloca os selecionados como Disponível.</dd>
+        <dt>Marcar como fora</dt><dd>Coloca os selecionados como Fora.</dd>
+        <dt>Alterar preço…</dt><dd>Aplica um preço manual ao conjunto. Em lote, exige digitar <span class="code">CONFIRMAR</span> (proteção contra alteração acidental em massa).</dd>
+        <dt>Reajuste em lote</dt><dd>Aplica um percentual/regra de reajuste. Também exige <span class="code">CONFIRMAR</span>.</dd>
+      </dl>
+      <p style="margin-top:14px;">Há também o atalho <span class="ui">"Aplicar a todos os N produtos do filtro atual: Marcar disponível / Marcar fora"</span>, logo abaixo dos contadores.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>Onde a regra realmente vale</h2></div>
+    <div class="body-col">
+      <p>A restrição não é só visual — ela bloqueia a venda de fato:</p>
+      <dl class="kv">
+        <dt>Venda (tela nova)</dt><dd>Ao usar essa tabela no cabeçalho, a busca de produtos <strong>não lista</strong> os itens bloqueados.</dd>
+        <dt>PDV</dt><dd>O seletor de tabela do item <strong>não oferece</strong> a tabela para um produto que está bloqueado nela.</dd>
+        <dt>Impressão (PDF)</dt><dd>O <span class="ui">Imprimir tabela (PDF)</span> sai apenas com os itens permitidos pelo modo.</dd>
+      </dl>
+      <p style="margin-top:14px;">Sem tabela no cabeçalho da venda, nada muda — o comportamento continua o de sempre.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">08</span><h2>Perguntas do dia a dia</h2></div>
+    <div class="body-col">
+      <div class="faq">
+        <div class="qa">
+          <p class="q"><span class="mark">P.</span>"Marquei os produtos como disponíveis, mas aparece <strong>0 fora da tabela</strong> — até os que eu não marquei."</p>
+          <p class="a"><span class="mark" style="color:var(--ok)">R.</span> Esperado. Todos os itens começam Disponível e o "Marcar disponível" é aditivo. No modo Inclusão, para excluir os que não deveriam vender, <b>filtre esses itens e clique "Marcar fora"</b>. Depois, Salvar.</p>
+        </div>
+        <div class="qa">
+          <p class="q"><span class="mark">P.</span>"O cliente diz que um produto <strong>não aparece na venda</strong> quando ele usa essa tabela."</p>
+          <p class="a"><span class="mark" style="color:var(--ok)">R.</span> Confira o modo da tabela: em <b>Inclusão</b>, o produto precisa estar <span class="pill ok">Disponível</span>; em <b>Exclusão</b>, ele não pode estar <span class="pill fora">Fora</span>. Ajuste o selo e <b>Salve o cabeçalho</b>.</p>
+        </div>
+        <div class="qa">
+          <p class="q"><span class="mark">P.</span>"Filtrei um monte de produtos, mas ao selecionar tudo <strong>só marca 200</strong>."</p>
+          <p class="a"><span class="mark" style="color:var(--ok)">R.</span> Isso foi corrigido. O checkbox do cabeçalho agora seleciona <b>todo o filtro</b> (inclusive filtros por Valor de Venda e Grupo), não só a página. Se o cliente ainda vir "200", peça para <b>recarregar a tela</b> para pegar a versão nova.</p>
+        </div>
+        <div class="qa">
+          <p class="q"><span class="mark">P.</span>"Troquei o modo / mexi nos selos, mas <strong>não pegou</strong>."</p>
+          <p class="a"><span class="mark" style="color:var(--ok)">R.</span> A restrição e os selos só valem depois de <b>Salvar o cabeçalho</b>. A própria tela avisa: "Lembre de Salvar o cabeçalho."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    Guia interno de referência do Suporte — módulo Tabela de preços · Restrição de itens (modos Sem restrição / Inclusão / Exclusão).
+  </footer>
+
+</div>
+</body>
+</html>
