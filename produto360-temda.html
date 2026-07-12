@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Produto 360º — Entrega Temda</title>
+<style>
+	:root {
+		--paper: #f7f4ef;
+		--card: #ffffff;
+		--ink: #241c17;
+		--ink-soft: #5d5149;
+		--muted: #8b7d72;
+		--line: #e7ddd1;
+		--wood: #a8621b;
+		--wood-deep: #7c4611;
+		--hap: #e0362a;
+		--good: #1f7a4d;
+		--good-bg: #e8f5ec;
+		--warn: #b5730a;
+		--warn-bg: #fbf1dd;
+		/* familias de material (motivo visual recorrente) */
+		--f-espuma: #7c3aed;
+		--f-madeira: #92400e;
+		--f-tecido: #1c74e9;
+		--f-ferragem: #475569;
+		--f-embalagem: #0891b2;
+		--f-mola: #0f766e;
+		--f-cola: #be185d;
+		--shadow: 0 1px 2px rgba(36, 28, 23, 0.05), 0 8px 24px rgba(36, 28, 23, 0.06);
+		--radius: 16px;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--paper: #191410;
+			--card: #221a15;
+			--ink: #f2ebe3;
+			--ink-soft: #c8bcb0;
+			--muted: #9c8d80;
+			--line: #362b23;
+			--wood: #d68a3c;
+			--wood-deep: #b9701f;
+			--hap: #ff5a4d;
+			--good: #4fca8a;
+			--good-bg: #16281f;
+			--warn: #e0a341;
+			--warn-bg: #2a2113;
+			--shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.35);
+		}
+	}
+	:root[data-theme="dark"] {
+		--paper: #191410; --card: #221a15; --ink: #f2ebe3; --ink-soft: #c8bcb0; --muted: #9c8d80;
+		--line: #362b23; --wood: #d68a3c; --wood-deep: #b9701f; --hap: #ff5a4d; --good: #4fca8a;
+		--good-bg: #16281f; --warn: #e0a341; --warn-bg: #2a2113;
+		--shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px rgba(0,0,0,0.35);
+	}
+	:root[data-theme="light"] {
+		--paper: #f7f4ef; --card: #ffffff; --ink: #241c17; --ink-soft: #5d5149; --muted: #8b7d72;
+		--line: #e7ddd1; --wood: #a8621b; --wood-deep: #7c4611; --hap: #e0362a; --good: #1f7a4d;
+		--good-bg: #e8f5ec; --warn: #b5730a; --warn-bg: #fbf1dd;
+		--shadow: 0 1px 2px rgba(36,28,23,0.05), 0 8px 24px rgba(36,28,23,0.06);
+	}
+
+	* { box-sizing: border-box; }
+	body {
+		margin: 0;
+		background: var(--paper);
+		color: var(--ink);
+		font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+		line-height: 1.62;
+		-webkit-font-smoothing: antialiased;
+	}
+	.wrap { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+	h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
+	p { margin: 0 0 14px; color: var(--ink-soft); }
+	strong { color: var(--ink); font-weight: 650; }
+	.tnum { font-variant-numeric: tabular-nums; }
+
+	/* ---- hero ---- */
+	.hero { padding: 74px 0 40px; border-bottom: 1px solid var(--line); }
+	.eyebrow {
+		display: inline-flex; align-items: center; gap: 9px;
+		font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+		color: var(--wood-deep);
+	}
+	.eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--hap); }
+	.hero h1 {
+		font-size: clamp(44px, 8vw, 76px); margin: 18px 0 0; font-weight: 800; color: var(--ink);
+	}
+	.hero h1 .deg { color: var(--wood); }
+	.hero .lead { font-size: clamp(18px, 2.4vw, 22px); color: var(--ink-soft); max-width: 40ch; margin: 16px 0 0; }
+	.hero .sub { margin: 22px 0 0; max-width: 62ch; font-size: 15.5px; }
+
+	/* ---- faixa de metricas ---- */
+	.metrics {
+		display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+		background: var(--line); border: 1px solid var(--line); border-radius: var(--radius);
+		overflow: hidden; margin: 34px 0 0;
+	}
+	.metric { background: var(--card); padding: 20px 18px; }
+	.metric .n { font-size: 30px; font-weight: 800; color: var(--wood-deep); letter-spacing: -0.03em; }
+	.metric .l { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+	@media (max-width: 680px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+
+	/* ---- secoes ---- */
+	section.block { padding: 46px 0; border-bottom: 1px solid var(--line); }
+	.kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+	.block h2 { font-size: clamp(26px, 4vw, 34px); margin: 20px 0 0; font-weight: 750; }
+	.block h2 .num {
+		display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 11px;
+		background: var(--wood); color: #fff; font-size: 18px; margin-right: 13px; vertical-align: 3px;
+		box-shadow: var(--shadow);
+	}
+	.block .body { margin-top: 16px; font-size: 15.5px; }
+	.intro-p { font-size: 17px; color: var(--ink-soft); max-width: 64ch; }
+
+	/* cartoes de aba (tela unica) */
+	.tabgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 22px; }
+	@media (max-width: 680px) { .tabgrid { grid-template-columns: 1fr; } }
+	.tab {
+		background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 15px 17px;
+		box-shadow: var(--shadow);
+	}
+	.tab .t { font-weight: 700; color: var(--ink); font-size: 15px; display: flex; align-items: center; gap: 9px; }
+	.tab .t .ic { font-size: 17px; }
+	.tab .d { font-size: 13.5px; color: var(--ink-soft); margin-top: 5px; }
+
+	/* familias de material */
+	.fams { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 6px; }
+	.famchip {
+		display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px 7px 11px;
+		border: 1px solid var(--line); border-radius: 999px; background: var(--card);
+		font-size: 13px; font-weight: 600; color: var(--ink);
+	}
+	.famchip .sw { width: 11px; height: 11px; border-radius: 3px; }
+	.famchip .v { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+	/* lista de ganhos */
+	.wins { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 11px; }
+	.wins li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; }
+	.wins .ck {
+		flex: none; width: 22px; height: 22px; border-radius: 7px; background: var(--good-bg); color: var(--good);
+		display: grid; place-items: center; font-size: 13px; font-weight: 800; margin-top: 1px;
+	}
+
+	/* callout madeira */
+	.callout {
+		display: flex; gap: 16px; align-items: flex-start;
+		background: var(--warn-bg); border: 1px solid color-mix(in srgb, var(--warn) 34%, transparent);
+		border-left: 4px solid var(--warn); border-radius: 14px; padding: 20px 22px; margin-top: 8px;
+	}
+	.callout .ic { font-size: 26px; line-height: 1; }
+	.callout h3 { margin: 0 0 6px; font-size: 18px; color: var(--ink); }
+	.callout p { margin: 0 0 8px; font-size: 14.5px; }
+	.callout p:last-child { margin-bottom: 0; }
+
+	/* roadmap */
+	.road { display: grid; gap: 10px; margin-top: 18px; }
+	.road .r {
+		display: grid; grid-template-columns: 26px 1fr auto; gap: 13px; align-items: center;
+		background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 13px 16px;
+	}
+	.road .r .rn { color: var(--wood); font-weight: 800; font-variant-numeric: tabular-nums; }
+	.road .r .rt { font-size: 14.5px; }
+	.road .r .rt b { color: var(--ink); }
+	.tagpill {
+		font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+		padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+	}
+	.tag-now { background: var(--good-bg); color: var(--good); }
+	.tag-next { background: color-mix(in srgb, var(--wood) 16%, transparent); color: var(--wood-deep); }
+
+	footer { padding: 40px 0 60px; color: var(--muted); font-size: 13px; }
+	footer .hap { color: var(--hap); font-weight: 800; letter-spacing: 0.02em; }
+
+	@media (prefers-reduced-motion: no-preference) {
+		.tab, .metric, .road .r { transition: transform .15s ease, box-shadow .15s ease; }
+		.tab:hover { transform: translateY(-2px); }
+	}
+</style>
+
+<div class="wrap">
+	<header class="hero">
+		<span class="eyebrow"><span class="dot"></span> HAP&nbsp;Tecnologia · Projeto Temda</span>
+		<h1>Produto&nbsp;360<span class="deg">º</span></h1>
+		<p class="lead">Toda a vida do seu produto em uma só tela — sem mais planilhas soltas.</p>
+		<p class="sub">Ficha, composição, custo, desenhos, desenvolvimento e histórico deixaram de morar em arquivos espalhados e passaram a viver juntos, lendo a <strong>mesma fonte</strong>. Alterou num lugar, mudou em todos. Este documento resume, em linguagem do dia a dia, tudo o que já está no ar e o que ainda falta.</p>
+
+		<div class="metrics">
+			<div class="metric"><div class="n tnum">278</div><div class="l">produtos prontos para a produção fabricar</div></div>
+			<div class="metric"><div class="n tnum">271</div><div class="l">fichas de custo aproveitadas do seu acervo</div></div>
+			<div class="metric"><div class="n tnum">8</div><div class="l">categorias de material organizadas por cor</div></div>
+			<div class="metric"><div class="n tnum">1</div><div class="l">tela única por produto — a "fonte da verdade"</div></div>
+		</div>
+	</header>
+
+	<section class="block">
+		<span class="kicker">Do Excel para o ERP</span>
+		<h2>O ponto de partida — e para onde fomos</h2>
+		<div class="body">
+			<p class="intro-p"><strong>Antes:</strong> cada produto tinha a ficha numa planilha, o custo em outra, e os desenhos guardados em pastas por conta própria. Recalcular custo era trabalho manual, e nem sempre a versão certa estava à mão.</p>
+			<p class="intro-p"><strong>Agora:</strong> o mesmo jeito de trabalhar que você já conhecia da planilha, dentro do sistema — só que conectado à produção, ao estoque e ao histórico. A migração respeitou o que você já tinha: aproveitamos as suas próprias listas em vez de recomeçar do zero.</p>
+			<ul class="wins">
+				<li><span class="ck">✓</span><span>Uma <strong>tela única por produto</strong> (Produto 360º) reunindo ficha, composição, custo, documentos e desenvolvimento.</span></li>
+				<li><span class="ck">✓</span><span>A <strong>ficha de custo funciona como a sua planilha</strong> — mas o custo do produto se atualiza sozinho ao salvar.</span></li>
+				<li><span class="ck">✓</span><span><strong>Nada muda sem deixar rastro:</strong> toda alteração passa por uma revisão e vira uma "foto" guardada no histórico.</span></li>
+				<li><span class="ck">✓</span><span>Centenas de produtos <strong>viraram itens que a produção consegue fabricar</strong>, com a lista de materiais montada.</span></li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="block">
+		<span class="kicker">A tela única</span>
+		<h2><span class="num">1</span>Produto 360º</h2>
+		<div class="body">
+			<p>Cada produto abre numa página com abas. É a visão consolidada: o que você vê aqui é o mesmo que a produção e o PLM enxergam.</p>
+			<div class="tabgrid">
+				<div class="tab"><div class="t"><span class="ic">📌</span>Visão geral</div><div class="d">Foto, código, família, custo de referência e pendências num relance.</div></div>
+				<div class="tab"><div class="t"><span class="ic">📋</span>Ficha do produto</div><div class="d">A especificação: quais materiais e opções compõem o produto.</div></div>
+				<div class="tab"><div class="t"><span class="ic">🧩</span>Composição</div><div class="d">Do que o produto é feito — partes/módulos e materiais diretos, por categoria.</div></div>
+				<div class="tab"><div class="t"><span class="ic">💰</span>Custo</div><div class="d">A ficha de custo completa, embutida aqui (detalhe na seção 2).</div></div>
+				<div class="tab"><div class="t"><span class="ic">📁</span>Documentos</div><div class="d">Todos os arquivos do produto (3D, costura, corte…) reunidos por pasta.</div></div>
+				<div class="tab"><div class="t"><span class="ic">🛠️</span>Desenvolvimento &amp; Histórico</div><div class="d">O andamento no PLM e o registro de tudo o que já mudou no produto.</div></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="block">
+		<span class="kicker">A planilha, dentro do sistema</span>
+		<h2><span class="num">2</span>Ficha de Custo como você já usa</h2>
+		<div class="body">
+			<p>A ficha de custo abre <strong>dentro do próprio produto</strong>, na aba Custo — sem precisar procurar em outra tela. E se comporta como a sua planilha de Excel, para reduzir ao máximo o atrito de preenchimento:</p>
+			<ul class="wins">
+				<li><span class="ck">✓</span><span><strong>Lista do catálogo de materiais</strong> na sua frente — você digita a <strong>quantidade só onde usa</strong>, o resto fica em branco (igual à sua planilha de "check").</span></li>
+				<li><span class="ck">✓</span><span><strong>Busca instantânea</strong>, filtro "só preenchidos", navegação por teclado (Enter e setas) e <strong>total ao vivo</strong> a cada número digitado.</span></li>
+				<li><span class="ck">✓</span><span>Botão <strong>Tela cheia</strong> para preencher como se estivesse na planilha inteira.</span></li>
+				<li><span class="ck">✓</span><span>Os materiais aparecem <strong>agrupados por categoria</strong> — a mesma organização da aba Composição, com subtotal por grupo.</span></li>
+			</ul>
+			<p style="margin-top:20px">Cada categoria tem a sua cor, para bater o olho e saber onde o custo pesa:</p>
+			<div class="fams">
+				<span class="famchip"><span class="sw" style="background:var(--f-espuma)"></span>Espuma &amp; Conforto</span>
+				<span class="famchip"><span class="sw" style="background:var(--f-madeira)"></span>Madeira &amp; Estrutura</span>
+				<span class="famchip"><span class="sw" style="background:var(--f-tecido)"></span>Tecido &amp; Acabamento</span>
+				<span class="famchip"><span class="sw" style="background:var(--f-ferragem)"></span>Ferragens &amp; Acessórios</span>
+				<span class="famchip"><span class="sw" style="background:var(--f-embalagem)"></span>Embalagem</span>
+				<span class="famchip"><span class="sw" style="background:var(--f-mola)"></span>Molas</span>
+				<span class="famchip"><span class="sw" style="background:var(--f-cola)"></span>Cola &amp; Químicos</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="block">
+		<span class="kicker">Custo em dia, sem retrabalho</span>
+		<h2><span class="num">3</span>O custo se atualiza sozinho</h2>
+		<div class="body">
+			<p>Quando você salva a ficha de custo, o <strong>custo do produto é recalculado e gravado na hora</strong> — não precisa mais copiar valor de uma planilha para o cadastro. E um gráfico de <strong>"onde pesa o custo"</strong> mostra, por categoria, quanto cada família de material representa — exatamente onde vale a pena negociar preço com o fornecedor.</p>
+		</div>
+	</section>
+
+	<section class="block">
+		<span class="kicker">Governança e rastreabilidade</span>
+		<h2><span class="num">4</span>Nada muda sem revisão</h2>
+		<div class="body">
+			<p>Para evitar que a ficha (técnica ou de custo) seja alterada por engano, criamos uma trava simples: <strong>para editar, você abre uma revisão</strong>. No momento em que a revisão abre, o sistema tira uma <strong>"foto" do produto</strong> — ficha técnica + ficha de custo + materiais — e guarda no <strong>Histórico</strong>.</p>
+			<p>Resultado: você sempre consegue responder <strong>o que mudou, quando e a partir de qual versão</strong>. A ficha antiga nunca se perde; cada revisão fica registrada e pode ser consultada.</p>
+		</div>
+	</section>
+
+	<section class="block">
+		<span class="kicker">Prontos para produzir</span>
+		<h2><span class="num">5</span>Seus produtos viraram itens fabricáveis</h2>
+		<div class="body">
+			<p>O maior ganho silencioso: aproveitamos as <strong>listas de corte e materiais que já existiam</strong> no seu acervo para transformar os produtos em itens que a produção consegue fabricar — com a <strong>estrutura de materiais (lista de produção) montada</strong>, sem você ter que recadastrar nada.</p>
+			<ul class="wins">
+				<li><span class="ck">✓</span><span><strong>278 produtos</strong> ganharam a estrutura de produção a partir das fichas existentes.</span></li>
+				<li><span class="ck">✓</span><span><strong>175 deles</strong> já vêm com a lista de materiais completa; os demais entram no ajuste fino (enriquecimento).</span></li>
+				<li><span class="ck">✓</span><span>Fizemos também uma <strong>faxina de cadastro</strong> (unidades, tipos e fichas duplicadas), tudo de forma reversível e auditada.</span></li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="block">
+		<span class="kicker">Transparência</span>
+		<h2>O que ainda falta: a madeira</h2>
+		<div class="body">
+			<div class="callout">
+				<span class="ic">🪵</span>
+				<div>
+					<h3>A madeira depende do preço por m³</h3>
+					<p>A parte de madeira já está <strong>estruturada</strong>: lista de corte por espessura → consumo em metros cúbicos. Só falta uma peça que <strong>não estava em nenhuma planilha</strong>: a <strong>tabela de preço da madeira</strong> (R$ por m³, por chapa/espessura).</p>
+					<p>Assim que você nos passar esses preços, o <strong>custo da madeira entra automaticamente</strong> em todos os produtos. Enquanto isso, a madeira aparece na ficha em modo somente-leitura, sem travar o restante do custo.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="block">
+		<span class="kicker">Próximos passos</span>
+		<h2>O que vem por aí</h2>
+		<div class="body">
+			<div class="road">
+				<div class="r"><span class="rn tnum">1</span><span class="rt"><b>Tabela de preço da madeira</b> — ligar o custo de madeira em todos os produtos.</span><span class="tagpill tag-next">com você</span></div>
+				<div class="r"><span class="rn tnum">2</span><span class="rt"><b>Enviar arquivos por pasta</b> na Central de Documentos — subir 3D, costura e corte direto pela tela.</span><span class="tagpill tag-next">em breve</span></div>
+				<div class="r"><span class="rn tnum">3</span><span class="rt"><b>Editor da lista de corte de madeira</b> — medidas, peças e espessuras editáveis na ficha.</span><span class="tagpill tag-next">em breve</span></div>
+				<div class="r"><span class="rn tnum">4</span><span class="rt"><b>Ajuste fino</b> dos produtos com lista de materiais incompleta.</span><span class="tagpill tag-next">em breve</span></div>
+			</div>
+		</div>
+	</section>
+
+	<footer>
+		<span class="hap">HAP</span> Tecnologia · Produto 360º — entrega Temda · documento de acompanhamento, sem dados sensíveis.
+	</footer>
+</div>
+
+</body>
+</html>
