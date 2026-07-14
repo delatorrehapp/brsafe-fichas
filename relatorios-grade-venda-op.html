@@ -1,0 +1,407 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relatórios de Grade — Venda & Produção (mockup)</title>
+<style>
+  :root{
+    --canvas:#e9edf2;
+    --chrome-panel:#ffffff;
+    --chrome-ink:#232830;
+    --chrome-soft:#606a78;
+    --hair:#d5dae1;
+    --accent:#1c74e9;
+    --accent-ink:#0f52ab;
+    --accent-soft:#e7f0fe;
+    /* paper tokens are intentionally NOT themed: a print preview shows white paper in both modes */
+    --paper:#ffffff;
+    --ink:#1b1d21;
+    --ink-soft:#5c6470;
+    --line:#c3c8d0;
+    --line-strong:#8a929e;
+    --band:#eef1f5;
+    --tag:#9a5b00;
+    --tag-bg:#fff2da;
+    --tag-line:#e7c489;
+    --hand:#1c3fa8;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --canvas:#0f1216; --chrome-panel:#171b21; --chrome-ink:#e7eaef; --chrome-soft:#9aa4b2; --hair:#252b33; --accent:#4f92f5; --accent-ink:#8fb8fb; --accent-soft:#17324f; }
+  }
+  :root[data-theme="light"]{ --canvas:#e9edf2; --chrome-panel:#ffffff; --chrome-ink:#232830; --chrome-soft:#606a78; --hair:#d5dae1; --accent:#1c74e9; --accent-ink:#0f52ab; --accent-soft:#e7f0fe; }
+  :root[data-theme="dark"]{ --canvas:#0f1216; --chrome-panel:#171b21; --chrome-ink:#e7eaef; --chrome-soft:#9aa4b2; --hair:#252b33; --accent:#4f92f5; --accent-ink:#8fb8fb; --accent-soft:#17324f; }
+
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:var(--canvas); color:var(--chrome-ink);
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.5;
+  }
+  .wrap{ max-width:960px; margin:0 auto; padding:0 20px 90px; }
+
+  /* ---- app chrome ---- */
+  .topbar{
+    position:sticky; top:0; z-index:20; background:color-mix(in srgb,var(--canvas) 86%, transparent);
+    backdrop-filter:saturate(1.4) blur(8px); border-bottom:1px solid var(--hair);
+  }
+  .topbar-inner{ max-width:960px; margin:0 auto; padding:12px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .brand{ display:flex; flex-direction:column; gap:1px; margin-right:auto; }
+  .eyebrow{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink); font-weight:700; }
+  .brand h1{ margin:0; font-size:16px; font-weight:650; letter-spacing:-.01em; }
+  nav.seg{ display:flex; gap:4px; background:var(--chrome-panel); border:1px solid var(--hair); border-radius:999px; padding:4px; }
+  nav.seg a{ text-decoration:none; color:var(--chrome-soft); font-size:13px; font-weight:600; padding:6px 14px; border-radius:999px; }
+  nav.seg a:hover{ color:var(--chrome-ink); }
+  nav.seg a:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .intro{ padding:26px 20px 6px; max-width:720px; margin:0 auto; }
+  .intro p{ margin:0 auto; color:var(--chrome-soft); font-size:14.5px; }
+  .pill{ display:inline-block; font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--tag); background:var(--tag-bg); border:1px solid var(--tag-line); border-radius:6px; padding:2px 8px; }
+
+  /* ---- section captions ---- */
+  section{ scroll-margin-top:74px; }
+  .cap{ max-width:960px; margin:40px auto 12px; padding:0 4px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .cap .num{ font-size:12px; font-weight:800; color:#fff; background:var(--accent); border-radius:6px; padding:3px 8px; letter-spacing:.03em; }
+  .cap h2{ margin:0; font-size:20px; font-weight:650; letter-spacing:-.015em; }
+  .cap .sub{ color:var(--chrome-soft); font-size:13.5px; }
+
+  /* ---- the A4 sheet ---- */
+  .sheet-scroll{ overflow-x:auto; padding:4px; }
+  .sheet{
+    background:var(--paper); color:var(--ink); width:794px; max-width:100%;
+    margin:0 auto; padding:34px 36px 30px; box-shadow:0 1px 0 rgba(0,0,0,.04),0 12px 34px rgba(20,30,50,.14);
+    border-radius:2px; font-size:12px;
+  }
+  .sheet, .sheet *{ font-family:Helvetica,Arial,"Segoe UI",sans-serif; }
+
+  /* company header (maps to ErpPdfHeader company data) */
+  .co{ text-align:center; padding-bottom:8px; }
+  .co .co-name{ font-size:15px; font-weight:700; }
+  .co .co-fant{ font-style:italic; font-size:12.5px; }
+  .co .co-line{ font-size:11px; }
+  .co .co-cnpj{ font-size:11px; margin-top:6px; font-weight:600; }
+
+  .doc-title-row{ display:flex; align-items:flex-end; justify-content:space-between; border-bottom:2px solid #111; padding-bottom:4px; margin-top:6px; }
+  .doc-title{ font-size:24px; font-weight:700; letter-spacing:-.01em; }
+  .doc-when{ font-size:11px; color:#333; }
+
+  table{ border-collapse:collapse; width:100%; }
+  .info{ margin-top:10px; font-size:11.5px; }
+  .info td{ padding:1px 4px; vertical-align:top; }
+  .info .lbl{ text-align:right; font-weight:700; white-space:nowrap; }
+  .info .lbl-l{ text-align:left; font-weight:700; }
+
+  .items{ margin-top:14px; font-size:11px; }
+  .items th{ background:var(--band); border:1px solid var(--line); padding:4px 6px; font-weight:700; text-align:left; font-size:10.5px; text-transform:none; }
+  .items th.r,.items td.r{ text-align:right; }
+  .items th.c,.items td.c{ text-align:center; }
+  .items td{ border:1px solid var(--line); padding:3px 6px; }
+  .items .prod td{ font-weight:700; background:#fafbfc; border-top:1.5px solid var(--line-strong); }
+  .items .cor td{ font-weight:700; padding-left:14px; }
+  .items td.num{ font-variant-numeric:tabular-nums; }
+  .items .empty{ border-left:1px solid transparent; border-bottom:1px solid transparent; }
+
+  .blk-h{ margin:16px 0 6px; font-size:12px; font-weight:700; color:#333; border-bottom:1px solid var(--line); padding-bottom:2px; }
+  .det-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .det{ border:1px solid var(--line); font-size:10.5px; }
+  .det .row{ display:grid; grid-template-columns:96px 1fr; }
+  .det .k{ background:var(--band); color:#666; padding:2px 6px; font-weight:600; }
+  .det .v{ padding:2px 6px; }
+  .det .k.top,.det .v.top{ border-bottom:1px solid var(--line); }
+  .det .ref{ font-weight:700; font-size:12px; }
+
+  .tot td{ padding:2px 4px; font-size:12px; }
+  .tot .lbl{ text-align:right; font-weight:700; white-space:nowrap; }
+  .tot .big{ font-weight:700; }
+  .sign{ margin-top:34px; text-align:center; font-size:11px; }
+  .sign .ln{ width:340px; margin:0 auto; border-top:1px solid #111; padding-top:3px; }
+  .pagefoot{ margin-top:16px; text-align:right; font-size:10px; color:#666; }
+
+  /* ---- PCP specific ---- */
+  .op-head{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .op-title{ font-size:20px; font-weight:700; }
+  .op-right{ text-align:right; font-size:11px; }
+  .op-client{ font-size:15px; font-weight:700; color:var(--hand); letter-spacing:.02em; }
+  .op-prev{ display:inline-block; margin-top:4px; border:1.5px solid #111; border-radius:4px; padding:2px 10px; font-weight:700; }
+  .ficha{ margin-top:10px; display:flex; justify-content:space-between; gap:12px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:6px 0; font-size:12px; }
+  .ficha .code{ font-weight:700; }
+
+  .rota{ margin-top:14px; }
+  .rota th,.rota td{ border:1px solid var(--line); padding:4px 8px; text-align:center; font-size:11px; }
+  .rota td.lbl{ text-align:left; font-weight:700; background:var(--band); white-space:nowrap; }
+  .rota td.qtd{ font-weight:700; font-size:14px; font-variant-numeric:tabular-nums; }
+  .rota td.tot{ font-weight:700; }
+  .chk{ display:inline-block; width:16px; height:16px; border:1px solid var(--line-strong); border-radius:3px; }
+
+  .mid{ display:grid; grid-template-columns:190px 1fr; gap:14px; margin-top:16px; align-items:start; }
+  .prodimg{ border:1px solid var(--line); padding:8px; display:flex; flex-direction:column; gap:8px; align-items:center; }
+  .prodimg svg{ width:120px; height:auto; }
+  .risco th,.risco td{ border:1px solid var(--line); padding:0; text-align:center; font-size:9.5px; height:19px; }
+  .risco th{ background:var(--band); font-weight:700; padding:2px 3px; }
+  .risco td.lbl{ font-weight:700; text-align:left; padding:2px 5px; white-space:nowrap; }
+  .risco caption{ text-align:left; font-weight:700; font-size:11px; padding-bottom:4px; color:#333; }
+
+  .consumo{ margin-top:16px; }
+  .consumo caption{ text-align:left; font-weight:700; font-size:12px; padding-bottom:4px; color:#333; border-bottom:1px solid var(--line); margin-bottom:4px; }
+  .consumo th{ background:var(--band); border:1px solid var(--line); padding:3px 6px; text-align:left; font-size:10.5px; }
+  .consumo td{ border:1px solid var(--line); padding:3px 6px; font-size:10.5px; }
+  .consumo td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .notes{ margin-top:14px; border:1px dashed var(--line-strong); border-radius:4px; padding:8px 10px; min-height:56px; font-size:11px; color:#888; }
+
+  /* annotation chip (superscript) + legend */
+  .a{ display:inline-block; min-width:15px; height:15px; line-height:15px; text-align:center; font-size:10px; font-weight:800;
+      color:#fff; background:var(--tag); border-radius:50%; vertical-align:super; margin-left:3px; font-family:-apple-system,"Segoe UI",sans-serif; }
+  .legend{ max-width:820px; margin:14px auto 0; background:var(--chrome-panel); border:1px solid var(--hair); border-radius:12px; padding:14px 16px; }
+  .legend h3{ margin:0 0 8px; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--chrome-soft); font-weight:700; }
+  .legend ol{ margin:0; padding:0; list-style:none; display:grid; gap:7px; }
+  .legend li{ display:grid; grid-template-columns:20px 1fr; gap:9px; font-size:13px; color:var(--chrome-ink); }
+  .legend .n{ width:16px; height:16px; line-height:16px; text-align:center; font-size:10px; font-weight:800; color:#fff; background:var(--tag); border-radius:50%; margin-top:2px; }
+  .legend b{ font-weight:650; }
+  .legend .hand{ color:var(--tag); font-weight:700; }
+
+  footer.foot{ max-width:820px; margin:48px auto 0; color:var(--chrome-soft); font-size:12.5px; text-align:center; }
+  @media (max-width:560px){ .det-grid{ grid-template-columns:1fr; } .mid{ grid-template-columns:1fr; } .doc-title{ font-size:20px; } }
+</style>
+</head>
+<body>
+
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="eyebrow">Hap ERP · Tenant Expressão</span>
+      <h1>Relatórios de Grade — mockup para aprovação</h1>
+    </div>
+    <nav class="seg" aria-label="Ir para relatório">
+      <a href="#venda">Venda</a>
+      <a href="#producao">Produção</a>
+    </nav>
+  </div>
+</div>
+
+<div class="intro">
+  <p><span class="pill">Aprovação de layout</span> &nbsp;Dois relatórios <b>default</b> novos para tenants que controlam <b>grade (cor&nbsp;×&nbsp;tamanho)</b>: o <b>Orçamento/Pedido</b> no fluxo de venda e a <b>Ordem de Produção detalhada</b> no PCP. As marcações <span class="a" style="vertical-align:baseline">1</span> apontam dados dinâmicos e campos preenchidos à mão. Reprodução fiel dos modelos aprovados (Expressão e DAPIC).</p>
+</div>
+
+<div class="wrap">
+
+  <!-- ============================ REPORT 1 : VENDA ============================ -->
+  <section id="venda">
+    <div class="cap">
+      <span class="num">01</span>
+      <h2>Orçamento / Pedido de Venda com grade</h2>
+      <span class="sub">base: impressão Expressão · agrupa Produto ▸ Cor ▸ Tamanho</span>
+    </div>
+
+    <div class="sheet-scroll">
+      <div class="sheet">
+        <div class="co">
+          <div class="co-name">Expressão Uniformes Ltda</div>
+          <div class="co-fant">Expressão Uniformes</div>
+          <div class="co-line">Rua Jean Anastace Kovelis, 829 - Bairro: Ipês (Polvilho)&nbsp;&nbsp;CEP: 07791-803</div>
+          <div class="co-line">Cajamar - SP</div>
+          <div class="co-cnpj">CNPJ: 29.404.938/0001-59</div>
+        </div>
+
+        <div class="doc-title-row">
+          <div class="doc-title">Orçamento<span class="a">1</span></div>
+          <div class="doc-when">Thomas - 27/10/2025 11:26</div>
+        </div>
+
+        <table class="info">
+          <tr>
+            <td class="lbl" style="width:90px">Código:</td><td style="width:150px">791</td>
+            <td class="lbl" style="width:80px">Emissão:</td><td>24/10/2025</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="lbl">Cliente:</td><td colspan="3">POLOS INDUSTRIA E COMERCIO DE MAQUINAS LTDA</td>
+            <td class="lbl">CNPJ: <span style="font-weight:400">03.599.133/0001-14</span></td>
+          </tr>
+          <tr><td class="lbl">Representante:</td><td colspan="4">Expressão Uniformes</td></tr>
+          <tr><td class="lbl">Tabela de preços:</td><td colspan="4">Tabela Uniformes</td></tr>
+          <tr><td class="lbl">Endereço:</td><td colspan="2">RUA RIO DE JANEIRO</td><td class="lbl-l">Numero: <span style="font-weight:400">1326</span>&nbsp;&nbsp;Bairro: <span style="font-weight:400">CHACARA DO SOLAR I</span></td><td></td></tr>
+          <tr><td class="lbl">Cidade:</td><td>Santana de Parnaíba - SP</td><td class="lbl">CEP:</td><td>06530-020</td><td></td></tr>
+          <tr><td class="lbl">Email:</td><td></td><td class="lbl">Telefone:</td><td></td><td class="lbl-l">Celular:</td></tr>
+        </table>
+
+        <table class="items">
+          <thead>
+            <tr>
+              <th>Produto</th><th>Cor</th><th>Tamanho</th><th>Tipo</th>
+              <th class="c">Quantidade</th><th class="r">Vlr. unitário</th><th class="r">Acréscimo</th><th class="r">Desconto</th><th class="r">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="prod"><td colspan="9">CB650230 - Camiseta Baby Look<span class="a">2</span></td></tr>
+            <tr class="cor"><td></td><td colspan="8">GL07 - Marinho<span class="a">3</span></td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">P</td><td class="c">Venda</td><td class="c num">2</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">70,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">M</td><td class="c">Venda</td><td class="c num">5</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">175,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">G</td><td class="c">Venda</td><td class="c num">2</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">70,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">GG</td><td class="c">Venda</td><td class="c num">2</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">70,00</td></tr>
+            <tr class="cor"><td></td><td colspan="8">GL19 - Branco</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">P</td><td class="c">Venda</td><td class="c num">1</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">35,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">M</td><td class="c">Venda</td><td class="c num">3</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">105,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">G</td><td class="c">Venda</td><td class="c num">1</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">35,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">GG</td><td class="c">Venda</td><td class="c num">1</td><td class="r num">35,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">35,00</td></tr>
+
+            <tr class="prod"><td colspan="9">CP687005 - Camisa Polo Masc</td></tr>
+            <tr class="cor"><td></td><td colspan="8">GL07 - Marinho</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">M</td><td class="c">Venda</td><td class="c num">3</td><td class="r num">55,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">165,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">G</td><td class="c">Venda</td><td class="c num">6</td><td class="r num">55,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">330,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">GG</td><td class="c">Venda</td><td class="c num">5</td><td class="r num">55,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">275,00</td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="c">XG</td><td class="c">Venda</td><td class="c num">5</td><td class="r num">60,00</td><td class="r num">0,00</td><td class="r num">0,00</td><td class="r num">300,00</td></tr>
+          </tbody>
+        </table>
+
+        <div class="blk-h">Detalhes dos produtos<span class="a">4</span></div>
+        <div class="det-grid">
+          <div class="det">
+            <div class="row"><div class="k top">Referência</div><div class="v top ref">CP687005</div></div>
+            <div class="row"><div class="k top">Produtos vinculados</div><div class="v top">Marinho: (GG)</div></div>
+            <div class="row"><div class="k">Detalhes</div><div class="v">SEPARAÇÃO DAS POLOS:<br>- PV = 5 GG<br>- Piquet = 3 M / 6 G / 2 XG<br>- Algodão = 3 XG</div></div>
+          </div>
+          <div class="det">
+            <div class="row"><div class="k top">Referência</div><div class="v top ref">CB650230</div></div>
+            <div class="row"><div class="k top">Produtos vinculados</div><div class="v top">Todos</div></div>
+            <div class="row"><div class="k">Detalhes</div><div class="v">Gola ribana · manga curta</div></div>
+          </div>
+        </div>
+
+        <div class="blk-h">Totais</div>
+        <table class="tot">
+          <tr><td class="lbl" style="width:150px">Unidade (UNID):</td><td class="big">45<span class="a">5</span></td></tr>
+          <tr><td class="lbl">Total bruto:</td><td class="big">R$ 1.605,00</td></tr>
+          <tr><td class="lbl" style="vertical-align:top">Observações:</td><td>Forma de Pagamento de Sinal: 50% e o restante na liberação do pedido.<br>Prazo: 15 a 20 dias úteis.</td></tr>
+        </table>
+
+        <div class="sign"><div class="ln">POLOS INDUSTRIA E COMERCIO DE MAQUINAS LTDA<br>CNPJ: 03.599.133/0001-14</div></div>
+        <div class="pagefoot">Página 1 de 1</div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h3>Notas do relatório de venda</h3>
+      <ol>
+        <li><span class="n">1</span><div><b>Título dinâmico</b> — "Orçamento" ou "Pedido" conforme <code>STipoMovimento</code> (mesma regra do template padrão atual).</div></li>
+        <li><span class="n">2</span><div><b>Faixa do produto</b> — agrupa por <code>SStyleKey</code> / produto pai da matriz. Cada grupo abre uma banda com código + descrição.</div></li>
+        <li><span class="n">3</span><div><b>Sub-banda Cor</b> e linhas por <b>Tamanho</b> — vêm de <code>MovimentoItem.Grids</code> (pares <code>SNomeGrade</code>=Cor/Tamanho + <code>SNomeVariacao</code>). <span class="hand">Hoje não são carregados na impressão — a hidratação de <code>Grids</code> é o principal ajuste de backend.</span></div></li>
+        <li><span class="n">4</span><div><b>Detalhes dos produtos</b> — Referência, Produtos vinculados e <code>SDetalhes</code> por produto (bloco já existente na base Expressão).</div></li>
+        <li><span class="n">5</span><div><b>Totais</b> — soma de unidades (peças da grade), total bruto e observações do movimento.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================ REPORT 2 : PRODUÇÃO ============================ -->
+  <section id="producao">
+    <div class="cap">
+      <span class="num">02</span>
+      <h2>Ordem de Produção detalhada com grade</h2>
+      <span class="sub">base: DAPIC · corte por grade + rota + enfesto</span>
+    </div>
+
+    <div class="sheet-scroll">
+      <div class="sheet">
+        <div class="op-head">
+          <div>
+            <div class="op-title">Ordem de produção detalhada</div>
+            <div class="doc-when" style="margin-top:2px">Thomas - 04/02/2026 13:23</div>
+          </div>
+          <div class="op-right">
+            <div class="op-client">GS TORROS<span class="a">1</span></div>
+            <div class="op-prev">Previsão: 19/02/26<span class="a">2</span></div>
+          </div>
+        </div>
+
+        <div class="ficha">
+          <div><span class="code">01 - Ficha técnica:</span> CG275652 - Camiseta Gola Careca M/Longa</div>
+          <div><span class="code">Cor:</span> GL20 - Verde Musgo</div>
+        </div>
+
+        <table class="rota">
+          <thead>
+            <tr>
+              <th style="text-align:left; width:130px">Tamanhos</th>
+              <th>G</th><th>GG</th><th>XG</th>
+              <th style="width:64px">Total</th><th style="width:120px">Assinatura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="lbl">Quantidade<span class="a">3</span></td><td class="qtd">15</td><td class="qtd">15</td><td class="qtd">6</td><td class="tot">36</td><td></td></tr>
+            <tr><td class="lbl">Corte<span class="a">4</span></td><td><span class="chk"></span></td><td><span class="chk"></span></td><td><span class="chk"></span></td><td></td><td></td></tr>
+            <tr><td class="lbl">Silk Screen</td><td><span class="chk"></span></td><td><span class="chk"></span></td><td><span class="chk"></span></td><td></td><td></td></tr>
+            <tr><td class="lbl">Bordado</td><td><span class="chk"></span></td><td><span class="chk"></span></td><td><span class="chk"></span></td><td></td><td></td></tr>
+            <tr><td class="lbl">Costura</td><td><span class="chk"></span></td><td><span class="chk"></span></td><td><span class="chk"></span></td><td></td><td></td></tr>
+            <tr><td class="lbl">Embalagem</td><td><span class="chk"></span></td><td><span class="chk"></span></td><td><span class="chk"></span></td><td></td><td></td></tr>
+            <tr><td class="lbl">Pronto</td><td><span class="chk"></span></td><td><span class="chk"></span></td><td><span class="chk"></span></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+
+        <div class="mid">
+          <div class="prodimg">
+            <div style="font-size:11px;font-weight:700;color:#555">Imagem do produto<span class="a">5</span></div>
+            <svg viewBox="0 0 120 130" fill="none" stroke="#9aa2ad" stroke-width="2" aria-label="ilustração camiseta manga longa">
+              <path d="M40 12 L28 20 L10 34 L20 50 L32 44 L32 118 L88 118 L88 44 L100 50 L110 34 L92 20 L80 12 C74 22 46 22 40 12 Z"/>
+              <path d="M40 12 C46 22 74 22 80 12"/>
+            </svg>
+          </div>
+
+          <table class="risco">
+            <caption>Enfesto / risco — preenchido no corte<span class="a">6</span></caption>
+            <thead>
+              <tr><th style="text-align:left">TAM.</th><th>PP</th><th>P</th><th>M</th><th>G</th><th>GG</th><th>XG</th><th>XGG</th><th>G3</th><th>G4</th><th>CAMADAS</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="lbl">RISCO 1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td class="lbl">RISCO 2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td class="lbl">RISCO 3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td class="lbl">RISCO 4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td class="lbl">RISCO 5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td class="lbl">RISCO 6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <table class="consumo">
+          <caption>Consumo<span class="a">7</span></caption>
+          <thead>
+            <tr><th style="width:34%">Produto matéria prima</th><th>Composição</th><th>Célula</th><th>Cor</th><th class="num">Quantidade</th><th>Unidade</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>MP468406 - Malha PV</td><td></td><td>Corte</td><td>GL20 - Verde Musgo</td><td class="num">10,62</td><td>KG</td></tr>
+            <tr><td>PR503956 - Punho (Ribana)</td><td></td><td>Corte</td><td>GL20 - Verde Musgo</td><td class="num">2,16</td><td>KG</td></tr>
+            <tr><td>ED532321 - Etiqueta de composição Padrão</td><td></td><td>Costura</td><td>GL19 - Branco</td><td class="num">36</td><td>UNID</td></tr>
+          </tbody>
+        </table>
+
+        <div class="notes">Anotações / observações da OP<span class="a">8</span></div>
+
+        <div class="pagefoot">Início: 04/02/26 &nbsp;·&nbsp; Previsão: 19/02/26 &nbsp;·&nbsp; Retorno: ____/____ &nbsp;·&nbsp; Página 1 de 1</div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h3>Notas do relatório de produção</h3>
+      <ol>
+        <li><span class="n">1</span><div><b>Cliente</b> — <code>SPessoaRazaoSocial</code> da OP (origem da venda). <span class="hand">No DAPIC era manuscrito; aqui sai impresso.</span></div></li>
+        <li><span class="n">2</span><div><b>Previsão / datas</b> — <code>DDataHoraEntrega</code> (previsão), <code>DDataHoraInicio</code>, <code>DDataHoraFim</code> da OP.</div></li>
+        <li><span class="n">3</span><div><b>Quantidade por tamanho</b> — soma das células de <code>PcpOrdemProducaoGrade</code> por tamanho, com Total consolidado.</div></li>
+        <li><span class="n">4</span><div><b>Etapas / rota</b> — linhas dinâmicas da rota da OP (<code>PcpRotaProducao</code> ▸ setores). Cada célula é um checkbox de acompanhamento por tamanho.</div></li>
+        <li><span class="n">5</span><div><b>Imagem do produto</b> — anexo <code>PRODUTOIMAGEM</code> (URL S3 presignada), igual à impressão atual da OP.</div></li>
+        <li><span class="n">6</span><div><b>Enfesto / risco</b> — grade <span class="hand">em branco</span> (RISCO 1–6 × tamanhos + CAMADAS) preenchida à mão no corte. Não há dado no banco — é gabarito impresso.</div></li>
+        <li><span class="n">7</span><div><b>Consumo</b> — BOM da OP (<code>ProdutoPcpEstrutura</code>): matéria-prima, célula/setor, cor e quantidade × unidade (KG/UNID).</div></li>
+        <li><span class="n">8</span><div><b>Espaço para anotações</b> — área livre para observações no chão de fábrica.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="foot">
+    Mockup de layout · reprodução fiel dos modelos Expressão (venda) e DAPIC (produção).<br>
+    Dados de exemplo reais dos PDFs enviados. Aprovado o layout, sigo para o plano de implementação.
+  </footer>
+</div>
+
+</body>
+</html>
+
