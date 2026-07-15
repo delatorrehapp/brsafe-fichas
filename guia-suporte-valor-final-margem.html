@@ -1,0 +1,389 @@
+<title>Valor Final + Margem — Guia N2</title>
+<style>
+  :root {
+    --bg: #f5f8fb;
+    --surface: #ffffff;
+    --surface-2: #eef3f8;
+    --ink: #13212f;
+    --ink-soft: #4c6076;
+    --ink-faint: #7286a0;
+    --line: #d9e2ec;
+    --line-soft: #e7edf4;
+    --accent: #1e6091;
+    --accent-ink: #164e77;
+    --accent-wash: #e7f0f8;
+    --good: #2f7a55;
+    --good-wash: #e6f2ec;
+    --warn: #a9691a;
+    --warn-wash: #f7eede;
+    --bad: #c0392b;
+    --bad-wash: #f8e7e4;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(19, 33, 47, .05), 0 6px 20px rgba(19, 33, 47, .05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d151e;
+      --surface: #15212e;
+      --surface-2: #1c2a39;
+      --ink: #e7eef6;
+      --ink-soft: #a3b5c8;
+      --ink-faint: #7488a0;
+      --line: #26384a;
+      --line-soft: #21313f;
+      --accent: #57a6d6;
+      --accent-ink: #8cc5e8;
+      --accent-wash: #14283a;
+      --good: #5cc08c;
+      --good-wash: #123024;
+      --warn: #e0a458;
+      --warn-wash: #33270f;
+      --bad: #e8776c;
+      --bad-wash: #34201d;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .28);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f8fb; --surface: #ffffff; --surface-2: #eef3f8; --ink: #13212f; --ink-soft: #4c6076;
+    --ink-faint: #7286a0; --line: #d9e2ec; --line-soft: #e7edf4; --accent: #1e6091; --accent-ink: #164e77;
+    --accent-wash: #e7f0f8; --good: #2f7a55; --good-wash: #e6f2ec; --warn: #a9691a; --warn-wash: #f7eede;
+    --bad: #c0392b; --bad-wash: #f8e7e4; --shadow: 0 1px 2px rgba(19,33,47,.05), 0 6px 20px rgba(19,33,47,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d151e; --surface: #15212e; --surface-2: #1c2a39; --ink: #e7eef6; --ink-soft: #a3b5c8;
+    --ink-faint: #7488a0; --line: #26384a; --line-soft: #21313f; --accent: #57a6d6; --accent-ink: #8cc5e8;
+    --accent-wash: #14283a; --good: #5cc08c; --good-wash: #123024; --warn: #e0a458; --warn-wash: #33270f;
+    --bad: #e8776c; --bad-wash: #34201d; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.28);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 40px 22px 80px; }
+
+  /* Header */
+  .eyebrow {
+    font-size: 12.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 10px;
+  }
+  h1 {
+    font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.35rem); line-height: 1.14; margin: 0 0 12px;
+    letter-spacing: -.02em; text-wrap: balance; font-weight: 800;
+  }
+  .lede { font-size: 1.075rem; color: var(--ink-soft); margin: 0; max-width: 64ch; }
+
+  .status-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 4px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 650;
+    padding: 4px 11px; border-radius: 999px; border: 1px solid transparent; letter-spacing: .01em;
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .pill.warn { color: var(--warn); background: var(--warn-wash); border-color: color-mix(in srgb, var(--warn) 25%, transparent); }
+  .pill.accent { color: var(--accent-ink); background: var(--accent-wash); border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+  .pill.good { color: var(--good); background: var(--good-wash); border-color: color-mix(in srgb, var(--good) 25%, transparent); }
+
+  section { margin-top: 44px; }
+  h2 {
+    font-size: 1.32rem; letter-spacing: -.01em; margin: 0 0 6px; font-weight: 750;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  h2 .num {
+    font-family: var(--mono); font-size: .82rem; font-weight: 700; color: var(--accent);
+    background: var(--accent-wash); border-radius: 7px; padding: 2px 8px; letter-spacing: 0;
+  }
+  h3 { font-size: 1.02rem; margin: 26px 0 6px; font-weight: 700; }
+  .sub { color: var(--ink-soft); margin: 0 0 16px; max-width: 66ch; }
+  p { max-width: 68ch; }
+  a { color: var(--accent-ink); }
+
+  .rule { height: 1px; background: var(--line); border: 0; margin: 8px 0 0; }
+
+  /* Cards / callouts */
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .callout {
+    border-radius: var(--radius); padding: 15px 17px 15px 18px; border: 1px solid var(--line);
+    background: var(--surface); position: relative; overflow: hidden;
+  }
+  .callout::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); }
+  .callout.warn::before { background: var(--warn); }
+  .callout.warn { background: var(--warn-wash); border-color: color-mix(in srgb, var(--warn) 22%, var(--line)); }
+  .callout.info { background: var(--accent-wash); border-color: color-mix(in srgb, var(--accent) 20%, var(--line)); }
+  .callout .ctitle { font-weight: 700; margin: 0 0 3px; font-size: .96rem; }
+  .callout p { margin: 0; font-size: .95rem; color: var(--ink-soft); max-width: none; }
+
+  ul, ol { padding-left: 1.2em; }
+  li { margin: 5px 0; max-width: 66ch; }
+  li strong { font-weight: 680; }
+
+  code, .kbd {
+    font-family: var(--mono); font-size: .85em; background: var(--surface-2);
+    padding: 1.5px 6px; border-radius: 6px; border: 1px solid var(--line-soft); color: var(--accent-ink);
+    white-space: nowrap;
+  }
+
+  /* Table */
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; font-size: .93rem; background: var(--surface); min-width: 480px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); font-weight: 700; background: var(--surface-2); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.where { font-weight: 650; white-space: nowrap; }
+
+  /* Test steps */
+  .step { display: grid; grid-template-columns: 34px 1fr; gap: 15px; padding: 16px 18px; }
+  .step + .step { border-top: 1px solid var(--line-soft); }
+  .step .idx {
+    width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+    font-family: var(--mono); font-weight: 700; font-size: .95rem;
+    background: var(--accent); color: #fff;
+  }
+  :root[data-theme="dark"] .step .idx, .step .idx { color: #fff; }
+  @media (prefers-color-scheme: dark) { .step .idx { color: #08131d; } }
+  :root[data-theme="dark"] .step .idx { color: #08131d; }
+  :root[data-theme="light"] .step .idx { color: #fff; }
+  .step h4 { margin: 4px 0 4px; font-size: 1rem; font-weight: 700; }
+  .step p, .step li { font-size: .94rem; }
+  .step .expect { margin-top: 8px; font-size: .92rem; color: var(--good); background: var(--good-wash); border-radius: 8px; padding: 8px 11px; border: 1px solid color-mix(in srgb, var(--good) 22%, transparent); }
+  .step .expect b { color: var(--good); }
+
+  /* Troubleshooting */
+  .ts { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .tsrow { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 16px; padding: 14px 18px; }
+  .tsrow + .tsrow { border-top: 1px solid var(--line-soft); }
+  @media (max-width: 620px) { .tsrow { grid-template-columns: 1fr; gap: 4px; } }
+  .tsrow .sym { font-weight: 680; }
+  .tsrow .sym::before { content: "⚠ "; color: var(--warn); }
+  .tsrow .fix { color: var(--ink-soft); font-size: .94rem; }
+
+  .chip { display: inline-block; font-family: var(--mono); font-size: .8rem; padding: 2px 8px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line-soft); }
+  .flag { color: var(--accent-ink); font-weight: 700; }
+
+  .tech dt { font-weight: 700; margin-top: 12px; font-size: .92rem; }
+  .tech dd { margin: 2px 0 0; color: var(--ink-soft); font-size: .92rem; }
+  .tech dd code { white-space: normal; }
+
+  footer { margin-top: 54px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: .85rem; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Guia do Suporte N2 · Hap ERP · Comercial</p>
+    <h1>Alterar o valor final da venda + Margem de lucro</h1>
+    <p class="lede">Dois recursos novos no fluxo <strong>moderno</strong> de venda: fechar a venda num valor
+      redondo (o sistema distribui a diferença entre os itens) e ver a margem de lucro na própria tela.
+      Ambos ficam atrás de uma <em>feature flag</em> por empresa.</p>
+    <div class="status-row">
+      <span class="pill warn"><span class="dot"></span>Pendente de deploy</span>
+      <span class="pill warn"><span class="dot"></span>Flag ainda desligada</span>
+      <span class="pill accent"><span class="dot"></span>Rollout gradual · empresa piloto</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span> O que faz</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3 style="margin-top:0">Ajustar o valor final</h3>
+        <p class="sub" style="margin-bottom:10px">Na finalização, o operador digita o <strong>total desejado</strong>
+          e o sistema distribui a diferença entre os itens da venda.</p>
+        <ul style="margin:0">
+          <li>Valor desejado <strong>abaixo</strong> do atual → vira <span style="color:var(--bad);font-weight:680">desconto</span> nos itens.</li>
+          <li>Valor desejado <strong>acima</strong> do atual → vira <span style="color:var(--warn);font-weight:680">acréscimo</span> nos itens.</li>
+          <li>Escolhe onde aplicar: <strong>Produto</strong>, <strong>Serviço</strong> ou <strong>Ambos</strong>.</li>
+          <li>Ex.: venda de <strong>19,35</strong> → digita <strong>20,00</strong> → fecha em 20,00.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Margem de lucro</h3>
+        <p class="sub" style="margin-bottom:10px">Botão <strong>“Ver margem”</strong> mostra, na mesma tela,
+          o resultado da venda.</p>
+        <ul style="margin:0">
+          <li>Exibe <strong>Custo total</strong>, <strong>Lucro</strong> e <strong>Margem&nbsp;%</strong>.</li>
+          <li>Usa o <strong>custo médio</strong> do produto (média móvel do estoque).</li>
+          <li>Só aparece para quem tem <strong>permissão de ver lucro</strong> (ver seção 4).</li>
+          <li>Sem permissão, mostra um aviso — <em>não</em> os números.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span> Antes de testar — pré-requisitos</h2>
+    <p class="sub">Este recurso <strong>não</strong> está em todos os clientes. Ele só funciona quando:</p>
+    <ol>
+      <li>A versão com o recurso já foi <strong>deployada</strong> no backend e no frontend do tenant; e</li>
+      <li>A flag <span class="flag">saleFinalValueMargin</span> está <strong>ligada</strong> para aquela empresa.</li>
+    </ol>
+    <div class="callout info" style="margin-top:14px">
+      <p class="ctitle">Como saber, na tela, se está ligado</p>
+      <p>Abra uma <strong>nova venda no layout moderno</strong> e vá na aba <strong>Totais</strong>. Se aparecerem as
+        seções <strong>“Valor final da venda”</strong> e <strong>“Margem de lucro”</strong>, a flag está ativa.
+        Se <strong>não</strong> aparecerem, a flag está desligada (ou a versão ainda não foi deployada) — isso é o
+        esperado hoje em produção.</p>
+    </div>
+    <div class="callout warn" style="margin-top:12px">
+      <p class="ctitle">Rollout gradual</p>
+      <p>A ativação começa por uma <strong>empresa piloto</strong> e vai sendo estendida às demais. Um administrador
+        liga a flag em <em>Configurações Gerais → Recursos em teste</em> (mesma tela das outras flags). Se o cliente
+        pedir e a empresa dele ainda não estiver liberada, <strong>não é bug</strong> — é o rollout em andamento.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span> Onde aparece</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Tela</th><th>Local exato</th><th>O que o operador vê</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="where">Venda moderna</td>
+            <td>Modal de venda → aba <strong>Totais</strong>, logo abaixo de “Desconto”.</td>
+            <td>Seção “Valor final da venda” (valor atual, campo do valor desejado, Produto/Serviço/Ambos, botão Aplicar) e seção “Margem de lucro” (botão Ver margem).</td>
+          </tr>
+          <tr>
+            <td class="where">PDV novo</td>
+            <td>Tela do PDV → etapa <strong>Carrinho</strong>, no topo.</td>
+            <td>Mesmo bloco “Valor final da venda” + “Ver margem”. O total exibido passa a ser o valor fixado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:12px">Só existe no fluxo <strong>moderno</strong>. Na venda/PDV <strong>legado</strong>
+      o recurso não aparece (comportamento inalterado).</p>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span> Regras que o N2 precisa saber</h2>
+    <ul>
+      <li><strong>Desconto × acréscimo:</strong> o sistema decide sozinho pelo valor digitado. Menor que o total = desconto; maior = acréscimo. Não há campo separado para isso.</li>
+      <li><strong>Rateio:</strong> a diferença é dividida entre os itens do grupo escolhido, proporcional ao valor de cada item, e a sobra de centavos cai no <strong>último item</strong>.</li>
+      <li><strong>“Total fixado” (pin):</strong> depois de aplicar, o total fica <strong>travado</strong> no valor desejado. Se o operador adicionar/alterar itens, o total continua fixado — para voltar ao normal, usar <strong>“Remover ajuste”</strong>.</li>
+      <li><strong>Permissão da margem:</strong> só vê os números quem é <strong>Administrador</strong>, <strong>usuário principal</strong>, ou tem o acesso <strong>“Dashboard — Visualiza Lucro”</strong>. É a mesma regra do lucro no dashboard.</li>
+      <li><strong>Custo da margem:</strong> usa o <strong>custo médio</strong> do produto. Produto sem custo cadastrado entra como custo 0 (a margem fica “inflada”).</li>
+      <li><strong>Impostos:</strong> o desconto/acréscimo do ajuste <strong>não muda a base de imposto dos itens</strong>. O acréscimo é lançado como <strong>“outras despesas acessórias”</strong> e entra no total da NF-e.</li>
+      <li><strong>Botão Aplicar bloqueado:</strong> quem não tem “Pedido — Altera Desconto”, ou pedido já faturado/em separação, não consegue aplicar (mesma trava do desconto normal).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span> Roteiro de teste</h2>
+    <p class="sub">Faça com a flag ligada (homologação ou empresa piloto). Cada teste é independente.</p>
+    <div class="card" style="padding:0">
+      <div class="step">
+        <div class="idx">1</div>
+        <div>
+          <h4>Desconto (arredondar para baixo)</h4>
+          <p>Nova venda moderna → adicione itens que somem, por ex., <strong>19,35</strong>. Aba Totais → “Valor final da venda” → digite <strong>18,00</strong> → “Lançar em: <strong>Ambos</strong>” → <strong>Aplicar</strong>.</p>
+          <div class="expect"><b>Esperado:</b> total (líquido) vira <b>18,00</b>; a diferença de 1,35 vira desconto distribuído nos itens; aparece o aviso “Total fixado em R$ 18,00”.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="idx">2</div>
+        <div>
+          <h4>Acréscimo (arredondar para cima) + NF-e</h4>
+          <p>Venda somando, por ex., <strong>78,05</strong> → digite <strong>88,05</strong> → Aplicar. Depois emita a <strong>NF-e</strong> (homologação).</p>
+          <div class="expect"><b>Esperado:</b> total vira <b>88,05</b> (acréscimo de 10,00 em “outras despesas”); a NF-e é autorizada e o <b>valor total da nota bate</b> com a tela. Se a SEFAZ rejeitar por divergência de total, <b>escale ao N3</b> (ver seção 7).</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="idx">3</div>
+        <div>
+          <h4>Alvo Produto / Serviço</h4>
+          <p>Venda com <strong>1 produto + 1 serviço</strong>. Aplique um ajuste com “Lançar em: <strong>Produto</strong>”. Depois repita com “<strong>Serviço</strong>”.</p>
+          <div class="expect"><b>Esperado:</b> em “Produto”, só a linha do produto muda; em “Serviço”, só a do serviço. “Ambos” divide entre os dois.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="idx">4</div>
+        <div>
+          <h4>Margem de lucro (com e sem permissão)</h4>
+          <p>Com um usuário <strong>administrador</strong>: seção “Margem de lucro” → <strong>Ver margem</strong>. Depois teste com um usuário <strong>sem</strong> o acesso “Dashboard — Visualiza Lucro”.</p>
+          <div class="expect"><b>Esperado:</b> admin vê Custo total / Lucro / Margem %. Usuário sem permissão vê o aviso “Você não tem permissão para visualizar o lucro”, sem números.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="idx">5</div>
+        <div>
+          <h4>PDV novo</h4>
+          <p>No PDV, monte um carrinho, aplique um valor final no bloco “Valor final da venda”, confira o total e <strong>finalize a venda</strong>.</p>
+          <div class="expect"><b>Esperado:</b> o total cobrado é o valor fixado; a venda finaliza normalmente e grava o ajuste.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="idx">6</div>
+        <div>
+          <h4>Salvar e reabrir (persistência)</h4>
+          <p>Aplique um ajuste, <strong>salve</strong> o pedido, feche e <strong>reabra</strong>.</p>
+          <div class="expect"><b>Esperado:</b> o total e o ajuste continuam iguais ao que foi salvo (não “volta” para o valor original).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span> Dúvidas frequentes</h2>
+    <ul>
+      <li><strong>“O cliente não tem a opção.”</strong> Rollout por empresa. Nas empresas ainda não liberadas é esperado não aparecer.</li>
+      <li><strong>“Adicionei um item e o total não mudou.”</strong> É o comportamento de <em>total fixado</em>. Clique em “Remover ajuste” e aplique de novo, se quiser recalcular.</li>
+      <li><strong>“A margem está muito alta / lucro estranho.”</strong> Provavelmente há produto <strong>sem custo médio</strong> cadastrado. Confira o custo do produto.</li>
+      <li><strong>“Desconto some ao mexer no pedido.”</strong> Se o operador remover o ajuste ou alterar itens sem reaplicar, o total volta ao normal — esperado.</li>
+      <li><strong>“Serve para o legado?”</strong> Não. Só no fluxo moderno de venda e no PDV novo.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">7</span> Se der problema</h2>
+    <div class="card" style="padding:0">
+      <div class="ts">
+        <div class="tsrow"><div class="sym">Não aparecem as seções “Valor final” / “Margem”</div><div class="fix">Flag desligada ou versão não deployada. Confirmar o deploy e ligar <span class="chip">saleFinalValueMargin</span> para a empresa (admin, em Configurações Gerais). Persistindo, escalar N3.</div></div>
+        <div class="tsrow"><div class="sym">Margem mostra “sem permissão”</div><div class="fix">Usuário sem “Dashboard — Visualiza Lucro” e não é admin/principal. Liberar o acesso em Acessos do usuário.</div></div>
+        <div class="tsrow"><div class="sym">Margem/lucro zerado ou irreal</div><div class="fix">Produto sem custo médio (custo 0). Ajustar o custo do produto no cadastro/entrada.</div></div>
+        <div class="tsrow"><div class="sym">NF-e rejeitada por divergência de total (vNF)</div><div class="fix">Escalar N3. Verificar se o acréscimo foi para “outras despesas acessórias” e o ambiente de emissão (ACBr). Anexar a chave/retorno da nota.</div></div>
+        <div class="tsrow"><div class="sym">Botão “Aplicar” desabilitado</div><div class="fix">Usuário sem “Pedido — Altera Desconto”, ou pedido faturado/em separação/bloqueado. Esperado.</div></div>
+      </div>
+    </div>
+    <div class="callout warn" style="margin-top:14px">
+      <p class="ctitle">Ao escalar para o N3/Dev, anexe sempre</p>
+      <p>Empresa (idempresa), nº do pedido/venda, print da aba Totais, valor digitado × total resultante, e — se for NF-e — a chave e a mensagem de retorno da SEFAZ.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">8</span> Apêndice técnico <span style="font-size:.8rem;font-weight:600;color:var(--ink-faint);letter-spacing:0">(para N3 / Dev)</span></h2>
+    <div class="card">
+      <dl class="tech">
+        <dt>Feature flag</dt><dd><code>saleFinalValueMargin</code> — em <code>ConfiguracaoSistema.JsonFeatureFlags</code>, por token do tenant. Default OFF; ativação por empresa (merge da chave no JSON, só após deploy).</dd>
+        <dt>Endpoints</dt><dd><code>POST comercial/adjust-final-value</code> (aplica/remove o ajuste) e <code>POST comercial/order/margin</code> (margem, gated por permissão).</dd>
+        <dt>Motor</dt><dd>Ramo dentro de <code>MovimentoImplementation.Calculate</code> (só venda/PDV, quando <code>NValorFinalDesejado &gt; 0</code>) + serviço puro <code>FinalValueDistributor</code>. Idempotente: intenção no cabeçalho, delta re-derivado a cada cálculo.</dd>
+        <dt>Campos</dt><dd>Cabeçalho: <code>Movimento.NValorFinalDesejado</code>, <code>STargetAjusteFinal</code>. Item: desconto em <code>NValorDesconto</code>, acréscimo em <code>NValorOutrasDespesasAcessorias</code>.</dd>
+        <dt>NF-e</dt><dd><code>NfeAcbr</code>: “outras despesas acessórias” agora entram no <code>vOutro</code> do item e do total (paridade com a via <code>Nfe.cs</code>).</dd>
+        <dt>Permissão da margem</dt><dd><code>UserCanSeeProfit</code> = BAdmin / BPrincipal, ou acesso <strong>DASHBOARD VISUALIZA LUCRO</strong>. Custo = <code>Produto.NPrecoCustoMedio</code>.</dd>
+        <dt>Migration</dt><dd><code>Scripts/1.6.327.sql</code> (movimento + 2 colunas).</dd>
+      </dl>
+    </div>
+  </section>
+
+  <footer>
+    Guia interno · Suporte N2 — Hap ERP. Recurso atrás de flag, em rollout gradual por empresa.
+    Dúvidas de comportamento fiscal ou cálculo → escalar N3.
+  </footer>
+
+</div>
