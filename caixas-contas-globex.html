@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relatório de Caixas e Contas — Novidades | Hap ERP</title>
+<style>
+:root{
+	--blue:#2563eb; --blue-soft:#e7eefc; --ink:#1b2230; --muted:#5b6474;
+	--line:#d9dee8; --bg:#eef1f6; --surface:#ffffff;
+	--green:#15803d; --red:#b91c1c;
+	--sans:"Segoe UI",Roboto,-apple-system,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;font-size:15px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px 64px;display:flex;flex-direction:column;gap:52px}
+
+.hero{background:linear-gradient(120deg,#0f2a63,#1d4f91);color:#fff;padding:44px 16px 40px;border-bottom:5px solid var(--blue)}
+.hero-in{max-width:960px;margin:0 auto}
+.eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#b9c9e8;font-weight:700}
+.hero h1{margin:8px 0 0;font-size:30px;line-height:1.2}
+.hero p{margin:12px 0 0;max-width:64ch;color:#d6e0f2}
+
+h2{font-size:22px;margin:0 0 4px}
+.section-sub{color:var(--muted);margin:0 0 18px;max-width:70ch}
+.section{margin-top:8px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.cardi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.cardi b{display:block;color:var(--blue);font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.cardi span{font-size:13.5px;color:var(--muted)}
+
+.shell{overflow-x:auto;padding:4px 2px 14px}
+.note{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+/* ---- mock da tela ---- */
+.ui{width:900px;min-width:900px;margin:0 auto;background:#f7f8fb;border:1px solid #e2e6ee;border-radius:14px;
+	box-shadow:0 8px 28px rgba(27,34,48,.10);padding:18px;color:#23293a;font-size:13px}
+.ui-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.ui-title{font-size:16px;font-weight:700}
+.ui-sub{font-size:11.5px;color:#8b93a7}
+.ui-actions{display:flex;gap:8px}
+.btn{border-radius:9px;padding:7px 16px;font-size:12.5px;font-weight:600;border:1px solid #c9d2e3;background:#fff;color:#3a4256;white-space:nowrap}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.ui-toolbar{display:flex;gap:8px;margin-bottom:14px}
+.ui-search{flex:1;min-width:180px;border:1px solid #e2e6ee;border-radius:9px;background:#fff;padding:7px 12px;font-size:12.5px;color:#8b93a7}
+.ui-select{border:1px solid #e2e6ee;border-radius:9px;background:#fff;padding:7px 12px;font-size:12.5px;color:#3a4256;white-space:nowrap}
+.ui-select.accent{border-color:var(--blue);color:var(--blue);font-weight:600}
+.ui-select .cv{color:#8b93a7;margin-left:6px}
+.kpis{display:flex;gap:10px;margin-bottom:14px}
+.kpi{flex:1;background:#fff;border:1px solid #e2e6ee;border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .l{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8b93a7;white-space:nowrap}
+.kpi .v{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi .v.pos{color:var(--green)} .kpi .v.negv{color:var(--red)} .kpi .v.acc{color:var(--blue)}
+.accs{display:flex;flex-direction:column;gap:10px}
+.acccard{background:#fff;border:1px solid #e2e6ee;border-radius:12px;overflow:hidden}
+.accrow{display:grid;grid-template-columns:minmax(0,1fr) repeat(4,140px) 30px;align-items:center;gap:8px;padding:12px 16px}
+.accname{font-size:13.5px;font-weight:700}
+.cell{text-align:right}
+.cell .l{display:block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a2a9bb}
+.cell .v{display:block;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;color:#3a4256}
+.cell .v.negv{color:var(--red)}
+.chev{color:#a2a9bb;font-size:15px;text-align:center}
+.exp{border-top:1px solid #eef0f5;padding:4px 16px 12px}
+table.uit{width:100%;border-collapse:collapse}
+table.uit th{text-align:left;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a2a9bb;padding:8px 8px 6px;border-bottom:1px solid #eef0f5}
+table.uit td{font-size:12px;color:#3a4256;padding:6px 8px;border-bottom:1px solid #f4f6fa}
+table.uit .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* ---- passos ---- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.step .n{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;
+	align-items:center;justify-content:center;font-weight:700;font-size:13px;margin-bottom:8px}
+.step b{display:block;margin-bottom:4px}
+.step span{font-size:13.5px;color:var(--muted)}
+
+/* ---- mock do modal ---- */
+.modal{width:400px;max-width:100%;margin:18px auto 0;background:#fff;color:#23293a;border:1px solid #e2e6ee;
+	border-radius:16px;box-shadow:0 8px 28px rgba(27,34,48,.12);padding:22px}
+.modal h3{margin:0 0 4px;font-size:16px}
+.modal .sub{font-size:12px;color:#8b93a7;margin-bottom:14px}
+.grp{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8b93a7;margin:12px 0 8px}
+.opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid #e2e6ee;border-radius:12px;margin-bottom:6px;font-size:13px}
+.opt.on{border-color:var(--blue);background:#f0f5ff;font-weight:600}
+.radio{width:15px;height:15px;border-radius:50%;border:2px solid #c9d2e3;flex:none}
+.opt.on .radio{border-color:var(--blue);box-shadow:inset 0 0 0 3.5px #fff,inset 0 0 0 10px var(--blue)}
+.checkrow{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid #e2e6ee;border-radius:12px;font-size:13px}
+.checkline{display:flex;align-items:center;gap:9px;font-weight:600}
+.checkbox{width:16px;height:16px;border-radius:5px;background:var(--blue);color:#fff;font-size:11px;line-height:16px;text-align:center;flex:none}
+.hint{font-size:11.5px;color:#8b93a7}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+
+/* ---- folha do PDF ---- */
+.sheet{width:794px;min-width:794px;background:#fff;color:#3a3a3a;box-shadow:0 8px 28px rgba(27,34,48,.10);
+	border-radius:3px;padding:40px 45px 30px;font-size:11px;line-height:1.35;margin:0 auto}
+.dochead{width:100%;border-collapse:collapse;border-bottom:2px solid #d8dbe0}
+.dochead td{padding:0 0 10px;vertical-align:top}
+.logo{width:46px;height:46px;border:1px solid #d8dbe0;border-radius:4px;font-size:8px;font-weight:700;color:#8a8a8a;
+	text-align:center;line-height:46px;letter-spacing:.08em;display:inline-block;vertical-align:middle}
+.co{display:inline-block;vertical-align:middle;padding-left:10px}
+.co .nm{font-size:13px;font-weight:700;color:#1c1924}
+.co .dt{font-size:9px;color:#8a8a8a}
+.doct{text-align:right}
+.doct .tt{font-size:14px;font-weight:700;color:#1c1924}
+.doct .mt{font-size:9px;color:#8a8a8a}
+.band{width:100%;border-collapse:collapse;background:#f2f5f9;border:1px solid #d8dbe0;margin-top:14px}
+.band td{padding:6px 8px}
+.bname{font-weight:700;font-size:12px;color:#1c1924;width:34%}
+.band td.bal{text-align:right;white-space:nowrap;width:16.5%}
+.bal .l{display:block;font-size:8px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em}
+.bal .v{display:block;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums}
+table.mov{width:100%;border-collapse:collapse}
+table.mov th{text-align:left;font-size:8.5px;text-transform:uppercase;letter-spacing:.03em;color:#8a8a8a;border-bottom:1px solid #d8dbe0;padding:4px 8px}
+table.mov td{padding:3px 8px;border-bottom:1px solid #eef0f2;font-size:10px}
+table.mov .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+table.mov tr.tot td{font-weight:700;border-top:1px solid #d8dbe0;border-bottom:0}
+.gband{border-top:2px solid #9aa4b2;margin-top:16px}
+.docfoot{margin-top:20px;border-top:1px solid #eef0f2;padding-top:6px;font-size:8.5px;color:#8a8a8a}
+.docfoot span+span{float:right}
+
+.foot{margin-top:8px;font-size:12px;color:var(--muted);text-align:center}
+@media (max-width:640px){.hero h1{font-size:24px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+	<div class="hero-in">
+		<span class="eyebrow">Hap ERP · Financeiro</span>
+		<h1>O Relatório de Caixas e Contas está de cara nova</h1>
+		<p>A tela ficou mais clara e a impressão ganhou um PDF profissional, com as colunas de valores
+		sempre alinhadas — e agora você escolhe exatamente o que quer imprimir.</p>
+	</div>
+</div>
+
+<div class="wrap">
+
+	<section class="section">
+		<h2>O que mudou</h2>
+		<p class="section-sub">Quatro melhorias pensadas para o dia a dia de quem acompanha os saldos e movimentações das contas.</p>
+		<div class="cards">
+			<div class="cardi"><b>Tela repaginada</b><span>Resumo do período no topo, filtros organizados em uma linha e cada conta em um cartão, com os valores sempre nas mesmas colunas.</span></div>
+			<div class="cardi"><b>Impressão alinhada</b><span>O PDF agora é gerado pelo sistema, com o logotipo da sua empresa no cabeçalho e colunas de valores que nunca saem do lugar.</span></div>
+			<div class="cardi"><b>Você escolhe o que imprimir</b><span>Com todos os detalhes dos lançamentos ou só o resumo das contas; agrupado por lançamento, por conta financeira ou por pessoa.</span></div>
+			<div class="cardi"><b>Período mais fácil</b><span>Atalhos prontos (hoje, esta semana, este mês...) e, no período personalizado, dá para digitar as datas direto no teclado.</span></div>
+		</div>
+	</section>
+
+	<section class="section">
+		<h2>A nova tela</h2>
+		<p class="section-sub">Os totais do período aparecem em destaque no topo. Cada conta é um cartão: clique para abrir e ver as movimentações. Os valores abaixo são ilustrativos.</p>
+		<div class="shell">
+			<div class="ui">
+				<div class="ui-top">
+					<div>
+						<div class="ui-title">Relatório de Caixas e Contas</div>
+						<div class="ui-sub">Saldos e movimentações das contas no período selecionado.</div>
+					</div>
+					<div class="ui-actions">
+						<span class="btn">Gerar Excel</span>
+						<span class="btn primary">Imprimir</span>
+					</div>
+				</div>
+				<div class="ui-toolbar">
+					<span class="ui-search">Pesquisar por documento, conta ou pessoa</span>
+					<span class="ui-select accent">01/07/2026 até 15/07/2026</span>
+					<span class="ui-select">Conciliados<span class="cv">&#8964;</span></span>
+					<span class="ui-select">Visão: Por lançamento<span class="cv">&#8964;</span></span>
+					<span class="ui-select accent">Contas: todas (3)<span class="cv">&#8964;</span></span>
+				</div>
+				<div class="kpis">
+					<div class="kpi"><span class="l">Saldo Anterior</span><span class="v">R$ 13.300,00</span></div>
+					<div class="kpi"><span class="l">Entradas</span><span class="v pos">R$ 6.700,00</span></div>
+					<div class="kpi"><span class="l">Saídas</span><span class="v negv">R$ 4.150,00</span></div>
+					<div class="kpi"><span class="l">Saldo Final</span><span class="v acc">R$ 15.850,00</span></div>
+				</div>
+				<div class="accs">
+					<div class="acccard">
+						<div class="accrow">
+							<span class="accname">BANCO DO BRASIL, 1234-5</span>
+							<span class="cell"><span class="l">Saldo Anterior</span><span class="v">R$ 10.000,00</span></span>
+							<span class="cell"><span class="l">Entradas</span><span class="v">R$ 5.500,00</span></span>
+							<span class="cell"><span class="l">Saídas</span><span class="v">R$ 3.200,00</span></span>
+							<span class="cell"><span class="l">Saldo Final</span><span class="v">R$ 12.300,00</span></span>
+							<span class="chev">&#8963;</span>
+						</div>
+						<div class="exp">
+							<table class="uit">
+								<thead><tr><th>Data</th><th>Documento</th><th>Pessoa</th><th>Conta Financeira</th><th class="num">Entradas</th><th class="num">Saídas</th></tr></thead>
+								<tbody>
+									<tr><td>10/07/2026</td><td>NFe 1001 - 1/3</td><td>Cliente Exemplo Ltda</td><td>Venda de mercadorias</td><td class="num">2.500,00</td><td class="num">0,00</td></tr>
+									<tr><td>12/07/2026</td><td>NFe 1002 - 2/2</td><td>Comércio Modelo ME</td><td>Venda de mercadorias</td><td class="num">3.000,00</td><td class="num">0,00</td></tr>
+									<tr><td>14/07/2026</td><td>Pagto fornecedor 355</td><td>Fornecedor Padrão SA</td><td>Compra de materiais</td><td class="num">0,00</td><td class="num">3.200,00</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="acccard">
+						<div class="accrow">
+							<span class="accname">Caixa da Loja</span>
+							<span class="cell"><span class="l">Saldo Anterior</span><span class="v">R$ 800,00</span></span>
+							<span class="cell"><span class="l">Entradas</span><span class="v">R$ 1.200,00</span></span>
+							<span class="cell"><span class="l">Saídas</span><span class="v">R$ 950,00</span></span>
+							<span class="cell"><span class="l">Saldo Final</span><span class="v">R$ 1.050,00</span></span>
+							<span class="chev">&#8964;</span>
+						</div>
+					</div>
+					<div class="acccard">
+						<div class="accrow">
+							<span class="accname">SICREDI, 6789-0</span>
+							<span class="cell"><span class="l">Saldo Anterior</span><span class="v">R$ 2.500,00</span></span>
+							<span class="cell"><span class="l">Entradas</span><span class="v">R$ 0,00</span></span>
+							<span class="cell"><span class="l">Saídas</span><span class="v">R$ 0,00</span></span>
+							<span class="cell"><span class="l">Saldo Final</span><span class="v">R$ 2.500,00</span></span>
+							<span class="chev">&#8964;</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<h2>Imprimir ficou simples — e do seu jeito</h2>
+		<p class="section-sub">Em três passos, o relatório sai em PDF pronto para arquivar, enviar por e-mail ou imprimir em papel.</p>
+		<div class="steps">
+			<div class="step"><span class="n">1</span><b>Clique em Imprimir</b><span>No topo da tela, com os filtros e o período que você já escolheu.</span></div>
+			<div class="step"><span class="n">2</span><b>Escolha as opções</b><span>Como agrupar as movimentações e se quer todos os detalhes ou só o resumo das contas.</span></div>
+			<div class="step"><span class="n">3</span><b>Pronto</b><span>O PDF abre em uma nova aba, já com o logotipo e os dados da sua empresa no cabeçalho.</span></div>
+		</div>
+
+		<div class="modal">
+			<h3>Imprimir relatório</h3>
+			<div class="sub">Período de 01/07/2026 a 15/07/2026 · 3 contas selecionadas</div>
+			<div class="grp">Agrupamento</div>
+			<div class="opt"><span class="radio"></span>Por lançamento</div>
+			<div class="opt on"><span class="radio"></span>Agrupado por conta financeira</div>
+			<div class="opt"><span class="radio"></span>Agrupado por pessoa</div>
+			<div class="grp">Conteúdo</div>
+			<div class="checkrow">
+				<span class="checkline"><span class="checkbox">&#10003;</span>Imprimir detalhes dos lançamentos</span>
+				<span class="hint">Desmarcado, o PDF traz somente o resumo das contas (uma linha por conta + total geral).</span>
+			</div>
+			<div class="modal-foot">
+				<span class="btn">Cancelar</span>
+				<span class="btn primary">Imprimir</span>
+			</div>
+		</div>
+		<p class="note" style="text-align:center">A janelinha de opções da impressão: escolha o agrupamento e o nível de detalhe.</p>
+	</section>
+
+	<section class="section">
+		<h2>O PDF que chega na sua mão</h2>
+		<p class="section-sub">Cabeçalho com a identidade da sua empresa, faixa de saldos por conta e valores sempre alinhados à direita — inclusive no total geral. Exemplo com valores ilustrativos:</p>
+		<div class="shell">
+			<div class="sheet">
+				<table class="dochead"><tbody><tr>
+					<td>
+						<span class="logo">LOGO</span>
+						<span class="co"><span class="nm">Sua Empresa Ltda</span><br><span class="dt">CNPJ 00.000.000/0001-00 · (00) 0000-0000</span></span>
+					</td>
+					<td class="doct">
+						<span class="tt">Relatório de Caixas e Contas</span><br>
+						<span class="mt">Período de 01/07/2026 a 15/07/2026</span><br>
+						<span class="mt">Impresso em 15/07/2026 às 09:30 por Maria</span><br>
+						<span class="mt">Visão: Por lançamento</span>
+					</td>
+				</tr></tbody></table>
+
+				<table class="band"><tbody><tr>
+					<td class="bname">BANCO DO BRASIL, 1234-5</td>
+					<td class="bal"><span class="l">Saldo Anterior</span><span class="v">R$ 10.000,00</span></td>
+					<td class="bal"><span class="l">Entradas</span><span class="v">R$ 5.500,00</span></td>
+					<td class="bal"><span class="l">Saídas</span><span class="v">R$ 3.200,00</span></td>
+					<td class="bal"><span class="l">Saldo Final</span><span class="v">R$ 12.300,00</span></td>
+				</tr></tbody></table>
+				<table class="mov">
+					<thead><tr><th>Data</th><th>Documento</th><th>Pessoa</th><th>Conta Financeira</th><th class="num">Entradas</th><th class="num">Saídas</th></tr></thead>
+					<tbody>
+						<tr><td>10/07/2026</td><td>NFe 1001 - 1/3</td><td>Cliente Exemplo Ltda</td><td>Venda de mercadorias</td><td class="num">2.500,00</td><td class="num">0,00</td></tr>
+						<tr><td>12/07/2026</td><td>NFe 1002 - 2/2</td><td>Comércio Modelo ME</td><td>Venda de mercadorias</td><td class="num">3.000,00</td><td class="num">0,00</td></tr>
+						<tr><td>14/07/2026</td><td>Pagto fornecedor 355</td><td>Fornecedor Padrão SA</td><td>Compra de materiais</td><td class="num">0,00</td><td class="num">3.200,00</td></tr>
+						<tr class="tot"><td colspan="4">Total da conta</td><td class="num">5.500,00</td><td class="num">3.200,00</td></tr>
+					</tbody>
+				</table>
+
+				<table class="band"><tbody><tr>
+					<td class="bname">Caixa da Loja</td>
+					<td class="bal"><span class="l">Saldo Anterior</span><span class="v">R$ 800,00</span></td>
+					<td class="bal"><span class="l">Entradas</span><span class="v">R$ 1.200,00</span></td>
+					<td class="bal"><span class="l">Saídas</span><span class="v">R$ 950,00</span></td>
+					<td class="bal"><span class="l">Saldo Final</span><span class="v">R$ 1.050,00</span></td>
+				</tr></tbody></table>
+				<table class="mov">
+					<thead><tr><th>Data</th><th>Documento</th><th>Pessoa</th><th>Conta Financeira</th><th class="num">Entradas</th><th class="num">Saídas</th></tr></thead>
+					<tbody>
+						<tr><td>11/07/2026</td><td>Recibo 205</td><td>Venda balcão</td><td>Vendas à vista</td><td class="num">1.200,00</td><td class="num">0,00</td></tr>
+						<tr><td>13/07/2026</td><td>Despesa 88</td><td>Serviços de limpeza</td><td>Despesas gerais</td><td class="num">0,00</td><td class="num">950,00</td></tr>
+						<tr class="tot"><td colspan="4">Total da conta</td><td class="num">1.200,00</td><td class="num">950,00</td></tr>
+					</tbody>
+				</table>
+
+				<table class="band gband"><tbody><tr>
+					<td class="bname">Total Geral</td>
+					<td class="bal"><span class="l">Saldo Anterior</span><span class="v">R$ 13.300,00</span></td>
+					<td class="bal"><span class="l">Entradas</span><span class="v">R$ 6.700,00</span></td>
+					<td class="bal"><span class="l">Saídas</span><span class="v">R$ 4.150,00</span></td>
+					<td class="bal"><span class="l">Saldo Final</span><span class="v">R$ 15.850,00</span></td>
+				</tr></tbody></table>
+
+				<div class="docfoot"><span>Hap ERP</span><span>Relatório de Caixas e Contas · pág. 1</span></div>
+			</div>
+		</div>
+		<p class="note" style="text-align:center">Prefere só o resumo? Desmarcando "Imprimir detalhes", o PDF sai com uma linha por conta e o total geral — ideal para conferências rápidas.</p>
+	</section>
+
+	<section class="section">
+		<h2>Escolher o período ficou mais rápido</h2>
+		<p class="section-sub">Além dos atalhos prontos (hoje, esta semana, este mês, últimos 3 meses...), o período personalizado
+		agora aceita <b>digitar as datas</b> — escreva 01/07/2026 e 15/07/2026 e pronto, sem caçar dia por dia no calendário.
+		E cada calendário (início e fim) navega de forma independente.</p>
+	</section>
+
+	<div class="foot">
+		Hap Tecnologia · Dúvidas? Fale com o nosso suporte pelo canal de atendimento de sempre.
+	</div>
+</div>
+</body>
+</html>
