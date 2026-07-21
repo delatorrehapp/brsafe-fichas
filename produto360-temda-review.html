@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produto 360 — Diagnóstico do acervo Temda</title>
+<meta name="description" content="Diagnóstico da migração do acervo de produtos da Temda para o Produto 360 do Hap: onde estamos, o que falta e o plano até 100%.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;1,400;0,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1EDE4; --surface:#F8F5EF; --surface-2:#EAE4D8;
+  --ink:#241F1B; --ink-soft:#4A423B; --taupe:#6F665B; --hair:#D9D1C2;
+  --brand:#175C63; --brand-soft:#DCEBEA; --walnut:#A8703C;
+  --ok:#2F7D54; --ok-bg:#E2EFE5; --warn:#9C6E1E; --warn-bg:#F3E9CF; --gap:#B14A34; --gap-bg:#F3E0D8;
+  --shadow:0 1px 2px rgba(36,31,27,.05), 0 8px 24px rgba(36,31,27,.06);
+  --radius:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#181512; --surface:#211C18; --surface-2:#2A241F;
+    --ink:#EDE7DD; --ink-soft:#C7BDAE; --taupe:#9C9082; --hair:#38312A;
+    --brand:#4FB0B7; --brand-soft:#12312F; --walnut:#D19A5E;
+    --ok:#5FB183; --ok-bg:#173125; --warn:#D2A64B; --warn-bg:#332813; --gap:#DB7A5F; --gap-bg:#361E16;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="light"]{
+  --paper:#F1EDE4; --surface:#F8F5EF; --surface-2:#EAE4D8; --ink:#241F1B; --ink-soft:#4A423B; --taupe:#6F665B; --hair:#D9D1C2;
+  --brand:#175C63; --brand-soft:#DCEBEA; --walnut:#A8703C; --ok:#2F7D54; --ok-bg:#E2EFE5; --warn:#9C6E1E; --warn-bg:#F3E9CF; --gap:#B14A34; --gap-bg:#F3E0D8;
+  --shadow:0 1px 2px rgba(36,31,27,.05), 0 8px 24px rgba(36,31,27,.06);
+}
+:root[data-theme="dark"]{
+  --paper:#181512; --surface:#211C18; --surface-2:#2A241F; --ink:#EDE7DD; --ink-soft:#C7BDAE; --taupe:#9C9082; --hair:#38312A;
+  --brand:#4FB0B7; --brand-soft:#12312F; --walnut:#D19A5E; --ok:#5FB183; --ok-bg:#173125; --warn:#D2A64B; --warn-bg:#332813; --gap:#DB7A5F; --gap-bg:#361E16;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:940px; margin:0 auto; padding:0 22px}
+.prose{max-width:680px}
+h1,h2,h3{text-wrap:balance; line-height:1.15; letter-spacing:-.01em}
+a{color:var(--brand); text-underline-offset:3px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--brand); font-weight:600}
+.tag{display:inline-flex; align-items:center; gap:.4em; font-family:"IBM Plex Mono",monospace; font-size:.7rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:.28em .6em; border-radius:6px; white-space:nowrap}
+.tag.ok{background:var(--ok-bg); color:var(--ok)} .tag.warn{background:var(--warn-bg); color:var(--warn)} .tag.gap{background:var(--gap-bg); color:var(--gap)}
+.dot{width:.55em; height:.55em; border-radius:50%; display:inline-block}
+
+/* ---- header ---- */
+header.hero{border-bottom:1px solid var(--hair); background:linear-gradient(180deg,var(--surface),var(--paper))}
+.hero-inner{padding:64px 0 46px}
+.brandline{display:flex; align-items:center; gap:.7em; font-family:"IBM Plex Mono",monospace; font-size:.78rem; letter-spacing:.1em; color:var(--taupe); margin-bottom:26px}
+.brandline b{color:var(--ink); font-weight:600}
+h1{font-size:clamp(2rem,5.2vw,3.15rem); font-weight:700; margin:.1em 0 .35em}
+.lede{font-size:clamp(1.08rem,2.4vw,1.28rem); color:var(--ink-soft); max-width:640px; margin:0}
+.meta{margin-top:30px; display:flex; flex-wrap:wrap; gap:10px 26px; font-family:"IBM Plex Mono",monospace; font-size:.76rem; color:var(--taupe); letter-spacing:.03em}
+.meta span{display:inline-flex; align-items:center; gap:.5em}
+
+/* ---- sections ---- */
+section{padding:52px 0; border-bottom:1px solid var(--hair)}
+section h2{font-size:clamp(1.5rem,3.4vw,2rem); font-weight:600; margin:0 0 .5em}
+section .kicker{margin-bottom:22px}
+p{margin:0 0 1.05em}
+.prose p:last-child{margin-bottom:0}
+strong{font-weight:600}
+
+/* ---- scoreboard ---- */
+.score{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:8px}
+.stat{background:var(--surface); border:1px solid var(--hair); border-radius:var(--radius); padding:20px 18px; box-shadow:var(--shadow); position:relative; overflow:hidden}
+.stat::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--brand)}
+.stat.warn::before{background:var(--warn)} .stat.gap::before{background:var(--gap)} .stat.ok::before{background:var(--ok)}
+.stat .num{font-family:"IBM Plex Mono",monospace; font-size:2.05rem; font-weight:600; line-height:1; letter-spacing:-.02em}
+.stat .num small{font-size:.9rem; color:var(--taupe); font-weight:400}
+.stat .lbl{margin-top:9px; font-size:.82rem; color:var(--ink-soft); line-height:1.35}
+@media(max-width:720px){.score{grid-template-columns:repeat(2,1fr)}}
+
+/* ---- three blocks ---- */
+.blocks{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:6px}
+.block{background:var(--surface); border:1px solid var(--hair); border-radius:var(--radius); padding:22px 20px; box-shadow:var(--shadow)}
+.block h3{font-size:1.02rem; margin:0 0 .3em; display:flex; align-items:center; gap:.5em}
+.block .sub{font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--taupe); margin-bottom:14px}
+.block ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:11px}
+.block li{font-size:.92rem; color:var(--ink-soft); padding-left:20px; position:relative; line-height:1.45}
+.block li::before{content:""; position:absolute; left:0; top:.55em; width:8px; height:8px; border-radius:2px; background:var(--brand)}
+.block.need li::before{background:var(--gap)} .block.auto li::before{background:var(--warn)} .block.have li::before{background:var(--ok)}
+@media(max-width:820px){.blocks{grid-template-columns:1fr}}
+
+/* ---- callout / verdict ---- */
+.verdict{background:var(--brand-soft); border:1px solid var(--hair); border-left:4px solid var(--brand); border-radius:var(--radius); padding:28px 30px; margin-top:8px}
+.verdict p{font-family:"IBM Plex Serif",Georgia,serif; font-size:1.24rem; line-height:1.5; color:var(--ink); margin:0}
+.verdict .who{margin-top:16px; font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--brand)}
+
+/* ---- placeholder banner ---- */
+.ph-banner{display:flex; gap:14px; align-items:flex-start; background:var(--warn-bg); border:1px solid var(--warn); border-radius:var(--radius); padding:16px 20px; margin:0 0 22px}
+.ph-banner .ic{font-family:"IBM Plex Mono",monospace; font-weight:700; color:var(--warn); font-size:1.1rem; line-height:1.4}
+.ph-banner p{margin:0; font-size:.92rem; color:var(--ink-soft)}
+.ph-banner b{color:var(--ink)}
+
+/* ---- tables ---- */
+.tbl-wrap{overflow-x:auto; border:1px solid var(--hair); border-radius:var(--radius); box-shadow:var(--shadow); background:var(--surface); margin-bottom:14px}
+table{width:100%; border-collapse:collapse; font-size:.9rem; min-width:440px}
+caption{text-align:left; padding:16px 18px 4px; font-weight:600; font-size:1rem; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+th,td{text-align:left; padding:11px 18px; border-bottom:1px solid var(--hair)}
+thead th{font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--taupe); font-weight:600; background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:none}
+td.r,th.r{text-align:right}
+.price{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-weight:500; white-space:nowrap}
+.src-ref{color:var(--ok)} .src-ph{color:var(--warn)}
+.note{font-size:.8rem; color:var(--taupe); margin:2px 0 30px}
+
+/* ---- timeline ---- */
+.timeline{margin-top:10px; display:flex; flex-direction:column; gap:0}
+.phase{display:grid; grid-template-columns:auto 1fr; gap:20px}
+.phase .rail{display:flex; flex-direction:column; align-items:center}
+.phase .idx{width:38px; height:38px; border-radius:50%; background:var(--surface); border:1.5px solid var(--brand); color:var(--brand); font-family:"IBM Plex Mono",monospace; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0}
+.phase .line{width:2px; flex:1; background:var(--hair); margin:6px 0}
+.phase:last-child .line{display:none}
+.phase .body{padding-bottom:30px}
+.phase h3{font-size:1.08rem; margin:6px 0 .3em}
+.phase p{font-size:.92rem; color:var(--ink-soft); margin:0}
+.phase .out{margin-top:10px; display:inline-flex; align-items:center; gap:.5em; font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--taupe); background:var(--surface-2); border-radius:6px; padding:.35em .65em}
+
+footer{padding:40px 0 56px; color:var(--taupe); font-size:.82rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between; align-items:center}
+.legend{display:flex; gap:16px; flex-wrap:wrap; font-family:"IBM Plex Mono",monospace; font-size:.72rem}
+.legend span{display:inline-flex; align-items:center; gap:.5em}
+@media (prefers-reduced-motion:no-preference){
+  section, .stat{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+}
+@keyframes rise{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="brandline"><b>HAP</b> <span>×</span> <b>TEMDA</b> <span style="color:var(--hair)">|</span> Produto 360</div>
+    <div class="eyebrow">Diagnóstico da migração do acervo</div>
+    <h1>Sua engenharia de produto, saindo das planilhas para o Produto&nbsp;360</h1>
+    <p class="lede">Onde a migração está hoje, por que a maioria dos produtos aparece sem custo, o que precisamos de vocês, e o caminho para chegar a 100%.</p>
+    <div class="meta">
+      <span><span class="dot" style="background:var(--brand)"></span> Tenant Temda · 283 produtos</span>
+      <span>Análise do acervo completo (~22 mil arquivos)</span>
+      <span>Julho / 2026</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker">1 · Onde estamos</div>
+    <div class="prose">
+      <p>Lemos <strong>todo o acervo da Temda</strong> — 10 anos de modelos, listas de madeira e espuma, planos de montagem e costura, fichas e desenhos 3D. A boa notícia: a <strong>engenharia está quase toda mapeada</strong> e importável. Praticamente todo modelo tem lista de corte, plano e ficha técnica no acervo.</p>
+      <p>O que ainda não aparece na tela é o <strong>custo</strong>. Dos 283 produtos, só os 8 do grupo <span class="mono">New&nbsp;Age</span> têm ficha de custo com valor — porque foram os únicos carregados por inteiro até agora.</p>
+    </div>
+    <div class="score">
+      <div class="stat ok"><div class="num">275<small>/277</small></div><div class="lbl">modelos com lista de madeira e de espuma no acervo</div></div>
+      <div class="stat ok"><div class="num">~90<small>%</small></div><div class="lbl">das listas de corte já em formato que o sistema entende</div></div>
+      <div class="stat gap"><div class="num">8<small>/283</small></div><div class="lbl">produtos com custo preenchido hoje (só New Age + BOSS)</div></div>
+      <div class="stat warn"><div class="num">3</div><div class="lbl">tabelas de preço que faltam para o custo fechar</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker">2 · Por que a maioria aparece “sem preço”</div>
+    <div class="prose">
+      <p>A regra é simples: <strong>o sistema calcula o custo, mas não inventa preço</strong>. Ele soma quanto cada peça de madeira, cada bloco de espuma e cada material consome — só que precisa saber <strong>quanto custa cada um</strong>. Esse preço nunca esteve nas planilhas de engenharia da Temda: elas dizem <em>quanto</em> e <em>que medida</em>, não <em>quanto custa</em>.</p>
+      <p>Faltam três fontes de preço. Uma delas <strong>vocês já têm no próprio cadastro</strong> (espuma); as outras duas precisamos definir juntos:</p>
+    </div>
+    <div class="blocks">
+      <div class="block need">
+        <div class="sub">Precisamos de vocês</div>
+        <h3><span class="tag gap">Falta</span> Preço</h3>
+        <ul>
+          <li><strong>Madeira em R$/m³</strong> — por tipo (eucalipto, MDF/Duratex, madeirite). É o maior custo do estofado e não está em nenhum arquivo.</li>
+          <li><strong>Mão-de-obra por setor</strong> — custo-hora de marcenaria, espumação, costura, montagem, embalagem.</li>
+          <li><strong>Confirmar preços de materiais</strong> — parte do catálogo ainda está sem custo.</li>
+        </ul>
+      </div>
+      <div class="block auto">
+        <div class="sub">O Hap carrega sozinho</div>
+        <h3><span class="tag warn">Automático</span> Engenharia</h3>
+        <ul>
+          <li>Ficha técnica (medidas, modulações, características) de cada modelo.</li>
+          <li>Listas de corte de madeira e espuma como estrutura do produto.</li>
+          <li>Planos de montagem, costura, DXF, 3D e fotos, anexados por pasta.</li>
+          <li><strong>Preço da espuma por densidade</strong> — já existe no seu cadastro.</li>
+        </ul>
+      </div>
+      <div class="block have">
+        <div class="sub">Já funciona hoje</div>
+        <h3><span class="tag ok">Pronto</span> Plataforma</h3>
+        <ul>
+          <li>Ficha de custo estilo planilha, com total ao vivo por família.</li>
+          <li>Editor de madeira paramétrico (peças + espessura + R$/m³).</li>
+          <li>Importar planilha de custo e módulos de corte.</li>
+          <li>Controle de revisão com histórico congelado (snapshots).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker">3 · O veredito</div>
+    <div class="verdict">
+      <p>A plataforma <strong>consegue representar quase tudo</strong> o que a Temda faz hoje em planilha — ficha técnica, listas de corte, composição, anexos e revisão. O que falta para os “275 vazios” virarem produtos completos é, em grande parte, <strong>carregar os dados e definir os preços</strong> — não capacidade do sistema.</p>
+      <div class="who">Resumo técnico · Produto 360 + PLM</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker">4 · Tabela de preços para partir</div>
+    <div class="prose">
+      <p>Para destravar o custo já, montamos uma <strong>tabela de partida</strong>. A espuma vem do preço que <strong>já está no cadastro de vocês</strong>; a madeira e a mão-de-obra são <strong>estimativas nossas</strong>, só para o sistema começar a calcular. <strong>Vocês validam e corrigem</strong> com os números reais.</p>
+    </div>
+    <div class="ph-banner">
+      <div class="ic">!</div>
+      <p><b>Valores marcados como “estimado” são placeholder da Hap</b> — servem só para o custo começar a rodar. Não são preços reais da Temda. Assim que vocês enviarem os números corretos, o sistema recalcula tudo automaticamente.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <caption>Madeira — R$ por m³ <span class="tag warn">Estimado · validar</span></caption>
+        <thead><tr><th>Tipo de madeira</th><th class="r">R$/m³</th><th>Origem</th></tr></thead>
+        <tbody>
+          <tr><td>Eucalipto (serrada)</td><td class="r price">2.200,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Pinus (serrada)</td><td class="r price">1.800,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Duratex / MDF / aglomerado</td><td class="r price">3.000,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Madeirite / compensado 10&nbsp;mm</td><td class="r price">3.200,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Madeirite / compensado 15&nbsp;mm</td><td class="r price">3.500,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Madeirite / compensado 20&nbsp;mm</td><td class="r price">3.800,00</td><td class="price src-ph">estimado</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">A ficha calcula o volume real de cada peça da lista de corte (comprimento × profundidade × espessura) e multiplica pelo R$/m³ do tipo de madeira.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <caption>Espuma — R$ por m³, por densidade <span class="tag ok">Referência do seu cadastro</span></caption>
+        <thead><tr><th>Densidade</th><th class="r">R$/m³</th><th>Origem</th></tr></thead>
+        <tbody>
+          <tr><td>R20 (cascão / reconstituída)</td><td class="r price">614,56</td><td class="price src-ref">cadastro</td></tr>
+          <tr><td>D12</td><td class="r price">385,29</td><td class="price src-ref">cadastro</td></tr>
+          <tr><td>D16 Soft</td><td class="r price">483,43</td><td class="price src-ref">cadastro</td></tr>
+          <tr><td>D18 (encosto)</td><td class="r price">580,24</td><td class="price src-ref">cadastro</td></tr>
+          <tr><td>D23</td><td class="r price">595,00</td><td class="price src-ref">cadastro</td></tr>
+          <tr><td>D25 / D26</td><td class="r price">706,15</td><td class="price src-ref">cadastro</td></tr>
+          <tr><td>D28 / D32 / D33 Soft</td><td class="r price">805,61</td><td class="price src-ref">cadastro</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Esses valores já existem no cadastro de materiais da Temda (linhas “MT ESPUMA … TAB.”). Basta ligá-los às listas de espuma dos produtos.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <caption>Mão-de-obra — custo-hora por setor <span class="tag warn">Estimado · validar</span></caption>
+        <thead><tr><th>Setor</th><th class="r">R$/hora</th><th>Origem</th></tr></thead>
+        <tbody>
+          <tr><td>Marcenaria</td><td class="r price">32,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Espumação</td><td class="r price">28,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Laminação</td><td class="r price">28,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Costura</td><td class="r price">30,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Montagem / Tapeçaria</td><td class="r price">30,00</td><td class="price src-ph">estimado</td></tr>
+          <tr><td>Embalagem</td><td class="r price">24,00</td><td class="price src-ph">estimado</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Multiplicado pelo tempo padrão de cada setor por tipo de produto (ex.: um sofá de 2 lugares ≈ 1,2&nbsp;h de marcenaria + 0,8&nbsp;h de espumação + 1,5&nbsp;h de costura…). Tempos também estimados — a ajustar com vocês.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow kicker">5 · O plano até 100%</div>
+    <div class="timeline">
+      <div class="phase"><div class="rail"><div class="idx">A</div><div class="line"></div></div>
+        <div class="body"><h3>Tabela de preços de partida</h3>
+        <p>Carregar madeira, espuma, materiais e mão-de-obra — a espuma do cadastro, o resto como estimativa marcada. Custo passa a rodar.</p>
+        <span class="out">Entrega · o sistema começa a calcular custo</span></div></div>
+      <div class="phase"><div class="rail"><div class="idx">B</div><div class="line"></div></div>
+        <div class="body"><h3>Ajustes no sistema</h3>
+        <p>Transformar as listas de corte em estrutura de produção de verdade, ligar cada material ao preço, e ligar o motor de custo de mão-de-obra (novo).</p>
+        <span class="out">Entrega · produto produzível + custo completo</span></div></div>
+      <div class="phase"><div class="rail"><div class="idx">C</div><div class="line"></div></div>
+        <div class="body"><h3>Carga em massa</h3>
+        <p>Preencher a ficha técnica e a estrutura dos 275 modelos restantes a partir do acervo já lido.</p>
+        <span class="out">Entrega · 283 produtos com ficha e estrutura</span></div></div>
+      <div class="phase"><div class="rail"><div class="idx">D</div><div class="line"></div></div>
+        <div class="body"><h3>Validação e escala</h3>
+        <p>Conferir ~10 modelos representativos na tela (ficha, composição, custo), corrigir, e escalar para toda a linha.</p>
+        <span class="out">Entrega · acervo Temda 100% no Produto 360</span></div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="legend">
+      <span><span class="dot" style="background:var(--ok)"></span> referência do cadastro</span>
+      <span><span class="dot" style="background:var(--warn)"></span> estimado · validar</span>
+      <span><span class="dot" style="background:var(--gap)"></span> falta definir</span>
+    </div>
+    <div>Hap Tecnologia · Diagnóstico Produto 360 — Temda · Jul/2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('temda-theme');
+    if(t) document.documentElement.setAttribute('data-theme', t);
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
